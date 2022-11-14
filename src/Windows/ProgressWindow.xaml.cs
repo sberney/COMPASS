@@ -4,35 +4,35 @@ using System.Windows;
 
 namespace COMPASS.Windows
 {
-    /// <summary>
-    /// Interaction logic for ProgressWindow.xaml
-    /// </summary>
-    public partial class ProgressWindow : Window
+  /// <summary>
+  /// Interaction logic for ProgressWindow.xaml
+  /// </summary>
+  public partial class ProgressWindow : Window
+  {
+    public ProgressWindow(ImportViewModel vm)
     {
-        public ProgressWindow(ImportViewModel vm)
-        {
-            InitializeComponent();
-            DataContext = vm;
-            ((INotifyCollectionChanged)LogsControl.Items).CollectionChanged += Logs_CollectionChanged;
-        }
-
-        private void Logs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                // scroll the new item into view   
-                Scroller.ScrollToEnd();
-            }
-        }
-
-        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (ProgBar.Value >= 100) this.Close();
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+      InitializeComponent();
+      DataContext = vm;
+      ((INotifyCollectionChanged)LogsControl.Items).CollectionChanged += Logs_CollectionChanged;
     }
+
+    private void Logs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.Action == NotifyCollectionChangedAction.Add)
+      {
+        // scroll the new item into view   
+        Scroller.ScrollToEnd();
+      }
+    }
+
+    private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+      if (ProgBar.Value >= 100) this.Close();
+    }
+
+    private void Close_Click(object sender, RoutedEventArgs e)
+    {
+      this.Close();
+    }
+  }
 }

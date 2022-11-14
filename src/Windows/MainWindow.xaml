@@ -17,697 +17,697 @@
         Foreground="White"  Background="{StaticResource WindowBackground}"
         Closing="Window_Closing" WindowState="Maximized" WindowStyle="None" 
         WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown">
-    <Window.Resources>
-        <Converters:WindowStatetoBoolConverter x:Key="IsMaximizedConverter"/>
-        <Converters:UriToBitmapConverter x:Key="UriToBitmapConverterr"/>
-        <DataTemplate DataType="{x:Type viewmodels:ListLayoutViewModel}">
-            <views:ListLayout DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:CardLayoutViewModel}">
-            <views:CardLayout DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:TileLayoutViewModel}">
-            <views:TileLayout DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:HomeLayoutViewModel}">
-            <views:HomeLayout DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:TagsFiltersViewModel}">
-            <views:Tag_FilterView DataContext="{Binding}"/>
-        </DataTemplate>
-    </Window.Resources>
-    <Window.Style>
-        <Style>
-            <Setter Property="WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <WindowChrome CaptionHeight="40" CornerRadius="4" GlassFrameThickness="0"
+  <Window.Resources>
+    <Converters:WindowStatetoBoolConverter x:Key="IsMaximizedConverter"/>
+    <Converters:UriToBitmapConverter x:Key="UriToBitmapConverterr"/>
+    <DataTemplate DataType="{x:Type viewmodels:ListLayoutViewModel}">
+      <views:ListLayout DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:CardLayoutViewModel}">
+      <views:CardLayout DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:TileLayoutViewModel}">
+      <views:TileLayout DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:HomeLayoutViewModel}">
+      <views:HomeLayout DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:TagsFiltersViewModel}">
+      <views:Tag_FilterView DataContext="{Binding}"/>
+    </DataTemplate>
+  </Window.Resources>
+  <Window.Style>
+    <Style>
+      <Setter Property="WindowChrome.WindowChrome">
+        <Setter.Value>
+          <WindowChrome CaptionHeight="40" CornerRadius="4" GlassFrameThickness="0"
                         NonClientFrameEdges="None" ResizeBorderThickness="4"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Style>
-    <Border BorderThickness="0">
-        <Grid Name="MainGrid" Focusable="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width ="0"/>
-                <ColumnDefinition Width ="auto"/>
-                <ColumnDefinition Width ="auto"/>
-                <ColumnDefinition Width ="*"/>
-                <ColumnDefinition Width ="auto"/>
-                <ColumnDefinition Width ="5"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!--#region Title Bar-->
-            <Grid Grid.ColumnSpan="7" x:Name="WindowsBar" Background="{StaticResource TitlebarBackground}">
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Style>
+  <Border BorderThickness="0">
+    <Grid Name="MainGrid" Focusable="True">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width ="0"/>
+        <ColumnDefinition Width ="auto"/>
+        <ColumnDefinition Width ="auto"/>
+        <ColumnDefinition Width ="*"/>
+        <ColumnDefinition Width ="auto"/>
+        <ColumnDefinition Width ="5"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <!--#region Title Bar-->
+      <Grid Grid.ColumnSpan="7" x:Name="WindowsBar" Background="{StaticResource TitlebarBackground}">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width ="*"/>
-                    <ColumnDefinition Width ="auto"/>
-                    <ColumnDefinition Width ="*"/>
-                    <ColumnDefinition Width ="auto"/>
-                    <ColumnDefinition Width ="auto"/>
-                    <ColumnDefinition Width ="auto"/>
-                    <ColumnDefinition Width ="auto"/>
-                </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width ="*"/>
+          <ColumnDefinition Width ="auto"/>
+          <ColumnDefinition Width ="*"/>
+          <ColumnDefinition Width ="auto"/>
+          <ColumnDefinition Width ="auto"/>
+          <ColumnDefinition Width ="auto"/>
+          <ColumnDefinition Width ="auto"/>
+        </Grid.ColumnDefinitions>
 
-                <Grid.Resources>
-                    <!--#region Dropdownbox Style-->
-                    <ControlTemplate x:Key="RPGArrow" TargetType="{x:Type ToggleButton}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="20" />
-                            </Grid.ColumnDefinitions>
-                            <Border x:Name="Border" Grid.ColumnSpan="3" CornerRadius="4,0,0,4" BorderThickness="0"
+        <Grid.Resources>
+          <!--#region Dropdownbox Style-->
+          <ControlTemplate x:Key="RPGArrow" TargetType="{x:Type ToggleButton}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+              </Grid.ColumnDefinitions>
+              <Border x:Name="Border" Grid.ColumnSpan="3" CornerRadius="4,0,0,4" BorderThickness="0"
                                     Background="{StaticResource UIElementBackground}" ClipToBounds="True" />
-                            <Path x:Name="Arrow" Grid.Column="1" Fill="{StaticResource CollectionIconFill}" HorizontalAlignment="Center"
+              <Path x:Name="Arrow" Grid.Column="1" Fill="{StaticResource CollectionIconFill}" HorizontalAlignment="Center"
                                  VerticalAlignment="Center" Data="M0,0 L6,8 L12,0 " Margin="0,0,5,0"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                <Setter TargetName="Arrow" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                                <Setter TargetName="Arrow" Property="RenderTransform">
-                                    <Setter.Value>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleY="1.2" ScaleX="1.2"/>
-                                        </TransformGroup>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                <Setter TargetName="Arrow" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                <Setter TargetName="Arrow" Property="RenderTransform">
+                  <Setter.Value>
+                    <TransformGroup>
+                      <ScaleTransform ScaleY="1.2" ScaleX="1.2"/>
+                    </TransformGroup>
+                  </Setter.Value>
+                </Setter>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
 
-                    <Style x:Key="RPGDropdownStyle" TargetType="{x:Type ComboBox}">
-                        <Setter Property="SnapsToDevicePixels" Value="true"/>
-                        <Setter Property="OverridesDefaultStyle" Value="true"/>
-                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-                        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-                        <Setter Property="MinWidth" Value="120"/>
-                        <Setter Property="MinHeight" Value="20"/>
-                        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ComboBox}">
-                                    <Grid>
-                                        <ToggleButton Template="{StaticResource RPGArrow}" Focusable="false" ClickMode="Press" Style="{x:Null}"
+          <Style x:Key="RPGDropdownStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                  <Grid>
+                    <ToggleButton Template="{StaticResource RPGArrow}" Focusable="false" ClickMode="Press" Style="{x:Null}"
                                                     IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"/>
-                                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                    <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
                                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                             ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                             Margin="10,3,25,3" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}"
+                    <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}"
                                             AllowsTransparency="True" Focusable="False" PopupAnimation="Slide" VerticalOffset="-6">
-                                            <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}"
+                      <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}"
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                                <Border x:Name="DropDownBorder" Background="{StaticResource UIElementBackground}" BorderThickness="0" CornerRadius="0,0,4,4"/>
-                                                <ScrollViewer Margin="0,6,0,6" SnapsToDevicePixels="True">
-                                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                                </ScrollViewer>
-                                            </Grid>
-                                        </Popup>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="HasItems" Value="false">
-                                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="50"/>
-                                        </Trigger>
-                                        <Trigger Property="IsGrouping" Value="true">
-                                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
+                        <Border x:Name="DropDownBorder" Background="{StaticResource UIElementBackground}" BorderThickness="0" CornerRadius="0,0,4,4"/>
+                        <ScrollViewer Margin="0,6,0,6" SnapsToDevicePixels="True">
+                          <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                        </ScrollViewer>
+                      </Grid>
+                    </Popup>
+                  </Grid>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="HasItems" Value="false">
+                      <Setter TargetName="DropDownBorder" Property="MinHeight" Value="50"/>
+                    </Trigger>
+                    <Trigger Property="IsGrouping" Value="true">
+                      <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
 
-                    <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
-                        <Setter Property="SnapsToDevicePixels" Value="true"/>
-                        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
-                        <Setter Property="OverridesDefaultStyle" Value="true"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                    <Border Name="Border" Padding="10,0" SnapsToDevicePixels="true" BorderThickness="0">
-                                        <ContentPresenter/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsHighlighted" Value="true">
-                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource TitlebarElementHoverBackground}"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <!--#endregion-->
-                </Grid.Resources>
+          <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                  <Border Name="Border" Padding="10,0" SnapsToDevicePixels="true" BorderThickness="0">
+                    <ContentPresenter/>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsHighlighted" Value="true">
+                      <Setter TargetName="Border" Property="Background" Value="{StaticResource TitlebarElementHoverBackground}"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+          <!--#endregion-->
+        </Grid.Resources>
 
-                <ContentControl Content="{StaticResource CompassLogo}" Margin="10,0" HorizontalAlignment="Left"/>
+        <ContentControl Content="{StaticResource CompassLogo}" Margin="10,0" HorizontalAlignment="Left"/>
 
-                <!--Search Bar-->
-                <Border Grid.Column="1" CornerRadius="4" MinWidth="300" WindowChrome.IsHitTestVisibleInChrome="True"
+        <!--Search Bar-->
+        <Border Grid.Column="1" CornerRadius="4" MinWidth="300" WindowChrome.IsHitTestVisibleInChrome="True"
                     Background="{StaticResource UIElementBackground}" OpacityMask="#FF222222" Margin="30,5">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width ="*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" x:Name="Searchbox" Tools:AP.PlaceHolderText="Search" Margin="0"
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width ="*"/>
+              <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" x:Name="Searchbox" Tools:AP.PlaceHolderText="Search" Margin="0"
                              Text="{Binding CollectionVM.SearchTerm, UpdateSourceTrigger=PropertyChanged}" 
                              Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
-                        <Button  Grid.Column="1" Style="{StaticResource IconBtn}" Margin="10,0" Tools:AP.IconKind="Search"
+            <Button  Grid.Column="1" Style="{StaticResource IconBtn}" Margin="10,0" Tools:AP.IconKind="Search"
                         Command="{Binding SearchCommand}" CommandParameter="{Binding Text, ElementName=Searchbox}" 
                                  IsDefault="{Binding ElementName=Searchbox, Path=IsKeyboardFocused}" ToolTip="Search"/>
-                    </Grid>
-                </Border>
+          </Grid>
+        </Border>
 
-                <!--Collection Selection-->
-                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0,5" WindowChrome.IsHitTestVisibleInChrome="True">
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type ToggleButton}">
-                            <Setter Property="Width" Value="30"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <materialDesign:PackIcon  Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Tools:AP.IconKind)}" HorizontalAlignment="Center"
+        <!--Collection Selection-->
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0,5" WindowChrome.IsHitTestVisibleInChrome="True">
+          <StackPanel.Resources>
+            <Style TargetType="{x:Type ToggleButton}">
+              <Setter Property="Width" Value="30"/>
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate>
+                    <materialDesign:PackIcon  Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Tools:AP.IconKind)}" HorizontalAlignment="Center"
                                                  Foreground="{TemplateBinding Foreground}" Background="{TemplateBinding Background}" Width="25" Height="25"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="RenderTransform">
-                                        <Setter.Value>
-                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Resources>
-                    <ComboBox Style="{StaticResource RPGDropdownStyle}" SelectedValue="{Binding CurrentCollectionName, Mode=TwoWay}"
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Setter Property="Cursor" Value="Hand"/>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="RenderTransform">
+                    <Setter.Value>
+                      <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                  </Setter>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </StackPanel.Resources>
+          <ComboBox Style="{StaticResource RPGDropdownStyle}" SelectedValue="{Binding CurrentCollectionName, Mode=TwoWay}"
                         ItemsSource="{Binding CollectionDirectories}"/>
-                    <Rectangle Fill="{StaticResource Separator}" Width="2" Height="auto"/>
-                    <Border Background="{StaticResource UIElementBackground}">
-                        <Grid>
-                            <ToggleButton x:Name="ShowCollectionCreation" Tools:AP.IconKind="FolderPlus" Foreground="{StaticResource CollectionIconFill}" ToolTip="Create New Collection"
+          <Rectangle Fill="{StaticResource Separator}" Width="2" Height="auto"/>
+          <Border Background="{StaticResource UIElementBackground}">
+            <Grid>
+              <ToggleButton x:Name="ShowCollectionCreation" Tools:AP.IconKind="FolderPlus" Foreground="{StaticResource CollectionIconFill}" ToolTip="Create New Collection"
                                         Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked,Converter={StaticResource ToVisibilityConverter},ConverterParameter=True}"/>
-                            <StackPanel Orientation="Horizontal" x:Name="CollectionCreation"
+              <StackPanel Orientation="Horizontal" x:Name="CollectionCreation"
                                     Visibility="{Binding ElementName=ShowCollectionCreation, Path=IsChecked, 
                                     Converter={StaticResource ToVisibilityConverter}, FallbackValue=Collapsed}">
-                                <TextBox x:Name="NewCollectionName" Tools:AP.PlaceHolderText="New Collection" FontSize="16" VerticalAlignment="Center" 
+                <TextBox x:Name="NewCollectionName" Tools:AP.PlaceHolderText="New Collection" FontSize="16" VerticalAlignment="Center" 
                                          Background="{StaticResource SelectableTransparent}" BorderBrush="{StaticResource DarkUIElementBackground}"
                                         Foreground="White" Margin="0" BorderThickness="0" MinWidth="80">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=CollectionCreation, Path=IsVisible}" Value="true">
-                                                    <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=NewCollectionName}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
-                                <ToggleButton Tools:AP.IconKind="Check" Foreground="{StaticResource AcceptFill}"
+                  <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=CollectionCreation, Path=IsVisible}" Value="true">
+                          <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=NewCollectionName}" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </TextBox.Style>
+                </TextBox>
+                <ToggleButton Tools:AP.IconKind="Check" Foreground="{StaticResource AcceptFill}"
                                              Command="{Binding CreateCollectionCommand}" CommandParameter="{Binding ElementName=NewCollectionName, Path=Text}"
                                             IsChecked="{Binding ElementName=ShowCollectionCreation, Path=IsChecked}"/>
-                                <ToggleButton Tools:AP.IconKind="Close" Foreground="{StaticResource CancelFill}"
+                <ToggleButton Tools:AP.IconKind="Close" Foreground="{StaticResource CancelFill}"
                                             IsChecked="{Binding ElementName=ShowCollectionCreation, Path=IsChecked}">
-                                    <materialDesign:PackIcon Kind="Close" Foreground="{StaticResource CancelFill}" Width="30" Height="30"/>
-                                </ToggleButton>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                    <Rectangle Fill="{StaticResource Separator}" Width="2" Height="auto"/>
-                    <Border Background="{StaticResource UIElementBackground}">
-                        <Grid>
-                            <ToggleButton Tools:AP.IconKind="FolderEdit" Foreground="{StaticResource CollectionIconFill}" x:Name="ShowCollectionEditing" ToolTip="Rename Collection"
+                  <materialDesign:PackIcon Kind="Close" Foreground="{StaticResource CancelFill}" Width="30" Height="30"/>
+                </ToggleButton>
+              </StackPanel>
+            </Grid>
+          </Border>
+          <Rectangle Fill="{StaticResource Separator}" Width="2" Height="auto"/>
+          <Border Background="{StaticResource UIElementBackground}">
+            <Grid>
+              <ToggleButton Tools:AP.IconKind="FolderEdit" Foreground="{StaticResource CollectionIconFill}" x:Name="ShowCollectionEditing" ToolTip="Rename Collection"
                                         Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked,Converter={StaticResource ToVisibilityConverter},ConverterParameter=True}"/>
-                            <StackPanel Orientation="Horizontal" x:Name="CollectionEditing"
+              <StackPanel Orientation="Horizontal" x:Name="CollectionEditing"
                                     Visibility="{Binding ElementName=ShowCollectionEditing, Path=IsChecked, Converter={StaticResource ToVisibilityConverter}, FallbackValue=Collapsed}">
-                                <TextBox x:Name="EditCollectionName" Text="{Binding CurrentCollectionName, Mode=OneWay}" FontSize="16" 
+                <TextBox x:Name="EditCollectionName" Text="{Binding CurrentCollectionName, Mode=OneWay}" FontSize="16" 
                                          VerticalAlignment="Center" Background="{StaticResource SelectableTransparent}"
                                         Foreground="{StaticResource TextColor}" Margin="5,0" BorderThickness="0" MinWidth="50">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=CollectionEditing, Path=IsVisible}" Value="true">
-                                                    <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=EditCollectionName}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
-                                <ToggleButton  Tools:AP.IconKind="Check" Foreground="{StaticResource AcceptFill}"
+                  <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=CollectionEditing, Path=IsVisible}" Value="true">
+                          <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=EditCollectionName}" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </TextBox.Style>
+                </TextBox>
+                <ToggleButton  Tools:AP.IconKind="Check" Foreground="{StaticResource AcceptFill}"
                                             Command="{Binding EditCollectionNameCommand}" CommandParameter="{Binding ElementName=EditCollectionName, Path=Text}"
                                             IsChecked="{Binding ElementName=ShowCollectionEditing, Path=IsChecked}">
-                                    <materialDesign:PackIcon Kind="Check" Foreground="{StaticResource AcceptFill}" Width="30" Height="30"/>
-                                </ToggleButton>
-                                <ToggleButton Tools:AP.IconKind="Close" Foreground="{StaticResource CancelFill}"
+                  <materialDesign:PackIcon Kind="Check" Foreground="{StaticResource AcceptFill}" Width="30" Height="30"/>
+                </ToggleButton>
+                <ToggleButton Tools:AP.IconKind="Close" Foreground="{StaticResource CancelFill}"
                                             IsChecked="{Binding ElementName=ShowCollectionEditing, Path=IsChecked}"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                    <Rectangle Fill="{StaticResource Separator}" Width="2" Height="auto"/>
-                    <Border Background="{StaticResource UIElementBackground}" CornerRadius="0,4,4,0">
-                        <ToggleButton Tools:AP.IconKind="FolderRemove" Foreground="{StaticResource CollectionIconFill}" 
+              </StackPanel>
+            </Grid>
+          </Border>
+          <Rectangle Fill="{StaticResource Separator}" Width="2" Height="auto"/>
+          <Border Background="{StaticResource UIElementBackground}" CornerRadius="0,4,4,0">
+            <ToggleButton Tools:AP.IconKind="FolderRemove" Foreground="{StaticResource CollectionIconFill}" 
                                       Command="{Binding DeleteCollectionCommand}" ToolTip="Delete This Collection"/>
-                    </Border>
-                </StackPanel>
-                
-                <!--Settings button-->
-                <Button Click="Toggle_ContextMenu" Grid.Column="4" Tools:AP.IconKind="Settings" Height="25" Margin="15,0"
+          </Border>
+        </StackPanel>
+
+        <!--Settings button-->
+        <Button Click="Toggle_ContextMenu" Grid.Column="4" Tools:AP.IconKind="Settings" Height="25" Margin="15,0"
                          WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Settings">
-                    <Button.ContextMenu>
-                        <ContextMenu Placement="Bottom">
-                            <ContextMenu.Resources>
-                                <Converters:MultiParamConverter x:Key="MultiParamConverter"/>
-                            </ContextMenu.Resources>
-                            <MenuItem Header="Preferences" Command="{Binding OpenSettingsCommand}" Tools:AP.IconKind="Cog"/>
-                            <MenuItem Header="Check for Updates" Command="{Binding CheckForUpdatesCommand}" Tools:AP.IconKind="Autorenew"/>
-                            <MenuItem Header="What's New" Command="{Binding OpenSettingsCommand}" CommandParameter="What's New" Tools:AP.IconKind="AlertDecagram"/>
-                            <!--<MenuItem Header="About" Command="{Binding OpenSettingsCommand}" CommandParameter="About"/>-->
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
-                            <Setter Property="BorderBrush" Value="{x:Null}"/>
-                            <Setter Property="Foreground" Value="{StaticResource TextMutedColor}"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <materialDesign:PackIcon Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Foreground="{TemplateBinding Foreground}"
+          <Button.ContextMenu>
+            <ContextMenu Placement="Bottom">
+              <ContextMenu.Resources>
+                <Converters:MultiParamConverter x:Key="MultiParamConverter"/>
+              </ContextMenu.Resources>
+              <MenuItem Header="Preferences" Command="{Binding OpenSettingsCommand}" Tools:AP.IconKind="Cog"/>
+              <MenuItem Header="Check for Updates" Command="{Binding CheckForUpdatesCommand}" Tools:AP.IconKind="Autorenew"/>
+              <MenuItem Header="What's New" Command="{Binding OpenSettingsCommand}" CommandParameter="What's New" Tools:AP.IconKind="AlertDecagram"/>
+              <!--<MenuItem Header="About" Command="{Binding OpenSettingsCommand}" CommandParameter="About"/>-->
+            </ContextMenu>
+          </Button.ContextMenu>
+          <Button.Style>
+            <Style TargetType="Button">
+              <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
+              <Setter Property="BorderBrush" Value="{x:Null}"/>
+              <Setter Property="Foreground" Value="{StaticResource TextMutedColor}"/>
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="Button">
+                    <materialDesign:PackIcon Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Foreground="{TemplateBinding Foreground}"
                                         Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Tools:AP.IconKind)}"
                                         Background="{TemplateBinding Background}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </Button>
 
-                <!--Internet status indicator-->
-                <materialDesign:PackIcon Grid.Column="5" Margin="0" Kind="WebOff" MaxWidth="25" MaxHeight="25" VerticalAlignment="Center"
+        <!--Internet status indicator-->
+        <materialDesign:PackIcon Grid.Column="5" Margin="0" Kind="WebOff" MaxWidth="25" MaxHeight="25" VerticalAlignment="Center"
                                          Foreground="{StaticResource OfflineFill}" ToolTip="No Internet Connection Found">
-                    <materialDesign:PackIcon.Style>
-                        <Style TargetType="materialDesign:PackIcon">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsOnline}" Value="True">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsOnline}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </materialDesign:PackIcon.Style>
-                </materialDesign:PackIcon>
+          <materialDesign:PackIcon.Style>
+            <Style TargetType="materialDesign:PackIcon">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsOnline}" Value="True">
+                  <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsOnline}" Value="False">
+                  <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </materialDesign:PackIcon.Style>
+        </materialDesign:PackIcon>
 
-                <!--Window management (minimize, maximize, close)-->
-                <StackPanel Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True"
+        <!--Window management (minimize, maximize, close)-->
+        <StackPanel Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True"
                 HorizontalAlignment="Right" Margin="15,0,0,0"
                 VerticalAlignment="Stretch" Grid.Column="6">
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type Button}" >
-                            <Setter Property="Width" Value="40"/>
-                            <Setter Property="Padding" Value="7"/>
-                            <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}" HorizontalAlignment="Stretch">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" Value="{StaticResource UIElementBackground}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style TargetType="{x:Type ToggleButton}" >
-                            <Setter Property="Width" Value="40"/>
-                            <Setter Property="Padding" Value="7"/>
-                            <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                        <Border Background="{TemplateBinding Background}" HorizontalAlignment="Stretch">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" Value="{StaticResource UIElementBackground}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Resources>
+          <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}" >
+              <Setter Property="Width" Value="40"/>
+              <Setter Property="Padding" Value="7"/>
+              <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" HorizontalAlignment="Stretch">
+                      <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                  <Setter Property="Background" Value="{StaticResource UIElementBackground}" />
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type ToggleButton}" >
+              <Setter Property="Width" Value="40"/>
+              <Setter Property="Padding" Value="7"/>
+              <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}" HorizontalAlignment="Stretch">
+                      <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                  <Setter Property="Background" Value="{StaticResource UIElementBackground}" />
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </StackPanel.Resources>
 
-                    <Button x:Name="MinimizeButton" ToolTip="Minimize" Click="MinimizeWindow" BorderBrush="{x:Null}">
-                        <materialDesign:PackIcon Kind="WindowMinimize" VerticalAlignment="Bottom"/>
-                    </Button>
+          <Button x:Name="MinimizeButton" ToolTip="Minimize" Click="MinimizeWindow" BorderBrush="{x:Null}">
+            <materialDesign:PackIcon Kind="WindowMinimize" VerticalAlignment="Bottom"/>
+          </Button>
 
-                    <ToggleButton x:Name="MaximizeButton" Click="MaximizeButton_Click" BorderBrush="{x:Null}" ToolTip="Maximize"
+          <ToggleButton x:Name="MaximizeButton" Click="MaximizeButton_Click" BorderBrush="{x:Null}" ToolTip="Maximize"
                             IsChecked="{Binding WindowState, RelativeSource={RelativeSource FindAncestor,
             AncestorType=Window}, Converter={StaticResource IsMaximizedConverter}, Mode=OneWay}">
-                        <Grid>
-                            <materialDesign:PackIcon Kind="WindowMaximize"  x:Name="Maximizeimage" Width="15"
+            <Grid>
+              <materialDesign:PackIcon Kind="WindowMaximize"  x:Name="Maximizeimage" Width="15"
                 Visibility="{Binding IsChecked, RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type ToggleButton}}, Converter={StaticResource ToVisibilityConverter}, ConverterParameter=true}"/>
-                            <materialDesign:PackIcon Kind="WindowRestore"  x:Name="NotMaximizeimage" Width="15"
+              <materialDesign:PackIcon Kind="WindowRestore"  x:Name="NotMaximizeimage" Width="15"
                 Visibility="{Binding IsChecked, RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type ToggleButton}}, Converter={StaticResource ToVisibilityConverter}, ConverterParameter=false}"/>
-                        </Grid>
-                    </ToggleButton>
-
-                    <Button x:Name="CloseButton" Click="CloseButton_Click" BorderBrush="{x:Null}" ToolTip="Close">
-                        <materialDesign:PackIcon Kind="WindowClose"/>
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="Red" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
             </Grid>
-            <!--#endregion-->
+          </ToggleButton>
 
-            <!--#region Left Dock-->
-            <Grid Grid.Column="2" Grid.Row="1" Background="{StaticResource LeftDockBackground}">
-                <Grid.Resources>
-                    <Style TargetType="{x:Type Button}" x:Key="GrayBtn">
-                        <Setter Property="Background" Value="{StaticResource ButtonBackground}"/>
-                        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
-                        <Setter Property="BorderBrush" Value="{x:Null}"/>
-                        <Setter Property="Margin" Value="0"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <ContentPresenter VerticalAlignment="Center"/>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" Value="{StaticResource ButtonFocus}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style TargetType="{x:Type Button}" x:Key="outerIconBtn" BasedOn="{StaticResource GrayBtn}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="35,0">
-                                            <materialDesign:PackIcon Height="30" Margin="0,0,10,0"
+          <Button x:Name="CloseButton" Click="CloseButton_Click" BorderBrush="{x:Null}" ToolTip="Close">
+            <materialDesign:PackIcon Kind="WindowClose"/>
+            <Button.Style>
+              <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                <Style.Triggers>
+                  <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="Red" />
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Button.Style>
+          </Button>
+        </StackPanel>
+      </Grid>
+      <!--#endregion-->
+
+      <!--#region Left Dock-->
+      <Grid Grid.Column="2" Grid.Row="1" Background="{StaticResource LeftDockBackground}">
+        <Grid.Resources>
+          <Style TargetType="{x:Type Button}" x:Key="GrayBtn">
+            <Setter Property="Background" Value="{StaticResource ButtonBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                  <ContentPresenter VerticalAlignment="Center"/>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource ButtonFocus}" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+          <Style TargetType="{x:Type Button}" x:Key="outerIconBtn" BasedOn="{StaticResource GrayBtn}">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                  <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="35,0">
+                      <materialDesign:PackIcon Height="30" Margin="0,0,10,0"
                                                 Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Tools:AP.IconKind)}"/>
-                                            <ContentPresenter VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <Style TargetType="{x:Type Button}" x:Key="innerIconBtn" BasedOn="{StaticResource GrayBtn}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0">
-                                            <materialDesign:PackIcon Height="30" Margin="0,0,10,0"
+                      <ContentPresenter VerticalAlignment="Center"/>
+                    </StackPanel>
+                  </Border>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+          <Style TargetType="{x:Type Button}" x:Key="innerIconBtn" BasedOn="{StaticResource GrayBtn}">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                  <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0">
+                      <materialDesign:PackIcon Height="30" Margin="0,0,10,0"
                                     Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Tools:AP.IconKind)}"/>
-                                            <ContentPresenter VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" Value="{StaticResource ButtonFocus}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style TargetType="{x:Type CustomControls:ExpandingButton}">
-                        <Setter Property="Margin" Value="10,4"/>
-                    </Style>
-                    <Style TargetType="{x:Type TabControl}">
-                        <Setter Property="SnapsToDevicePixels" Value="True" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TabControl}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
+                      <ContentPresenter VerticalAlignment="Center"/>
+                    </StackPanel>
+                  </Border>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource ButtonFocus}" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+          <Style TargetType="{x:Type CustomControls:ExpandingButton}">
+            <Setter Property="Margin" Value="10,4"/>
+          </Style>
+          <Style TargetType="{x:Type TabControl}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                                        <Border>
-                                            <UniformGrid x:Name="HeaderPanel" IsItemsHost="True" Rows="1" />
-                                        </Border>
+                    <Border>
+                      <UniformGrid x:Name="HeaderPanel" IsItemsHost="True" Rows="1" />
+                    </Border>
 
-                                        <Border x:Name="Border" Grid.Row="1" BorderThickness="{TemplateBinding BorderThickness}"
+                    <Border x:Name="Border" Grid.Row="1" BorderThickness="{TemplateBinding BorderThickness}"
                                     Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
-                                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"/>
-                                        </Border>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Grid.Resources>
+                      <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"/>
+                    </Border>
+                  </Grid>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Grid.Resources>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width ="auto"/>
-                    <ColumnDefinition Width ="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width ="auto"/>
+          <ColumnDefinition Width ="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
 
-                <UserControl Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding TFViewModel}"/>
+        <UserControl Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding TFViewModel}"/>
 
-                <Rectangle Grid.ColumnSpan="10" Grid.Row="1" Fill="{StaticResource Separator}" Height="3" Margin="0,10"/>
+        <Rectangle Grid.ColumnSpan="10" Grid.Row="1" Fill="{StaticResource Separator}" Height="3" Margin="0,10"/>
 
-                <CustomControls:ExpandingButton Grid.Column="1" Grid.Row="2">
-                    <CustomControls:ExpandingButton.HiddenContent>
-                        <views:TagEditView DataContext="{Binding AddTagViewModel}"/>
-                    </CustomControls:ExpandingButton.HiddenContent>
-                    <CustomControls:ExpandingButton.Toggle>
-                        <Button Tools:AP.IconKind="TagPlusOutline" Style="{StaticResource outerIconBtn}" 
+        <CustomControls:ExpandingButton Grid.Column="1" Grid.Row="2">
+          <CustomControls:ExpandingButton.HiddenContent>
+            <views:TagEditView DataContext="{Binding AddTagViewModel}"/>
+          </CustomControls:ExpandingButton.HiddenContent>
+          <CustomControls:ExpandingButton.Toggle>
+            <Button Tools:AP.IconKind="TagPlusOutline" Style="{StaticResource outerIconBtn}" 
                             Content="Add Tag" Command="{Binding AddTagCommand}" />
-                    </CustomControls:ExpandingButton.Toggle>
-                </CustomControls:ExpandingButton>
+          </CustomControls:ExpandingButton.Toggle>
+        </CustomControls:ExpandingButton>
 
-                <CustomControls:ExpandingButton Grid.Column="1" Grid.Row="3" >
-                    <CustomControls:ExpandingButton.Toggle>
-                        <Button Tools:AP.IconKind="FileImportOutline" 
+        <CustomControls:ExpandingButton Grid.Column="1" Grid.Row="3" >
+          <CustomControls:ExpandingButton.Toggle>
+            <Button Tools:AP.IconKind="FileImportOutline" 
                             Style="{StaticResource outerIconBtn}" Content="Import"/>
-                    </CustomControls:ExpandingButton.Toggle>
-                    <CustomControls:ExpandingButton.HiddenContent>
-                        <StackPanel>
-                            <Button Tools:AP.IconKind="FilePlusOutline" Style="{StaticResource innerIconBtn}" Content="From File"
+          </CustomControls:ExpandingButton.Toggle>
+          <CustomControls:ExpandingButton.HiddenContent>
+            <StackPanel>
+              <Button Tools:AP.IconKind="FilePlusOutline" Style="{StaticResource innerIconBtn}" Content="From File"
                             Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.File}"/>
-                            <Button Tools:AP.IconKind="BookPlusOutline" Style="{StaticResource innerIconBtn}" Content="Create New"
+              <Button Tools:AP.IconKind="BookPlusOutline" Style="{StaticResource innerIconBtn}" Content="Create New"
                             Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.Manual}"/>
-                            <Button Tools:AP.IconKind="Barcode" Style="{StaticResource innerIconBtn}" Content="From ISBN"
+              <Button Tools:AP.IconKind="Barcode" Style="{StaticResource innerIconBtn}" Content="From ISBN"
                             Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.ISBN}"/>
-                            <Button Tools:AP.IconKind="GoogleDrive" Style="{StaticResource innerIconBtn}" Content="Google Drive"
+              <Button Tools:AP.IconKind="GoogleDrive" Style="{StaticResource innerIconBtn}" Content="Google Drive"
                             Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.GoogleDrive}"/>
-                            <Button Style="{StaticResource GrayBtn}"
+              <Button Style="{StaticResource GrayBtn}"
                             Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.Homebrewery}">
-                                <Border Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Background}" 
+                <Border Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Background}" 
                                 BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                                        <ContentControl Content="{StaticResource HomebreweryLogo}"/>
-                                        <TextBlock Text="Homebrewery"/>
-                                    </StackPanel>
-                                </Border>
-                            </Button>
-                            <!--DND Beyond doesn't work yet-->
-                            <Button Style="{StaticResource GrayBtn}" Visibility="Collapsed"
+                  <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                    <ContentControl Content="{StaticResource HomebreweryLogo}"/>
+                    <TextBlock Text="Homebrewery"/>
+                  </StackPanel>
+                </Border>
+              </Button>
+              <!--DND Beyond doesn't work yet-->
+              <Button Style="{StaticResource GrayBtn}" Visibility="Collapsed"
                             Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.DnDBeyond}">
-                                <Border Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Background}" 
+                <Border Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Background}" 
                                 BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
-                                    <StackPanel Orientation="Horizontal">
-                                        <ContentControl Content="{StaticResource DnDBeyondLogo}"/>
-                                        <TextBlock Text="DnD Beyond"/>
-                                    </StackPanel>
-                                </Border>
-                            </Button>
-                            <Button Style="{StaticResource GrayBtn}"
+                  <StackPanel Orientation="Horizontal">
+                    <ContentControl Content="{StaticResource DnDBeyondLogo}"/>
+                    <TextBlock Text="DnD Beyond"/>
+                  </StackPanel>
+                </Border>
+              </Button>
+              <Button Style="{StaticResource GrayBtn}"
                                 Command="{Binding ImportFilesCommand}" CommandParameter="{x:Static Tools:Enums+Sources.GmBinder}">
-                                <Border Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Background}" 
+                <Border Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Background}" 
                                     BorderThickness="0" CornerRadius="7" HorizontalAlignment="Stretch">
-                                    <ContentControl Content="{StaticResource GMBinderLogo}"/>
-                                </Border>
-                            </Button>
-                        </StackPanel>
-                    </CustomControls:ExpandingButton.HiddenContent>
-                </CustomControls:ExpandingButton>
-                
-            </Grid>
-            <!--#endregion-->
+                  <ContentControl Content="{StaticResource GMBinderLogo}"/>
+                </Border>
+              </Button>
+            </StackPanel>
+          </CustomControls:ExpandingButton.HiddenContent>
+        </CustomControls:ExpandingButton>
 
-            <!--#region Main Dock-->
-            <Grid x:Name="ViewsGrid" Grid.Column="3" Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width ="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0" />
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
+      </Grid>
+      <!--#endregion-->
 
-                <!--#region View Selection-->
-                <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal" Margin="10,0">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
-                            <Setter Property="BorderBrush" Value="{x:Null}"/>
-                            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <materialDesign:PackIcon Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Foreground="{TemplateBinding Foreground}"
+      <!--#region Main Dock-->
+      <Grid x:Name="ViewsGrid" Grid.Column="3" Grid.Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width ="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="0" />
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <!--#region View Selection-->
+        <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal" Margin="10,0">
+          <StackPanel.Resources>
+            <Style TargetType="Button">
+              <Setter Property="Background" Value="{StaticResource SelectableTransparent}"/>
+              <Setter Property="BorderBrush" Value="{x:Null}"/>
+              <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="Button">
+                    <materialDesign:PackIcon Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Foreground="{TemplateBinding Foreground}"
                                         Kind="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Tools:AP.IconKind)}"
                                         Background="{TemplateBinding Background}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
-                                </Trigger>
-                                <DataTrigger Value="True">
-                                    <DataTrigger.Binding>
-                                        <MultiBinding>
-                                            <MultiBinding.Converter>
-                                                <Converters:EqualityConverter/>
-                                            </MultiBinding.Converter>
-                                            <Binding Path="CommandParameter" RelativeSource="{RelativeSource Self}" />
-                                            <Binding Path="CurrentLayout.LayoutType" />
-                                        </MultiBinding>
-                                    </DataTrigger.Binding>
-                                    <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
-                                </DataTrigger>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+                </Trigger>
+                <DataTrigger Value="True">
+                  <DataTrigger.Binding>
+                    <MultiBinding>
+                      <MultiBinding.Converter>
+                        <Converters:EqualityConverter/>
+                      </MultiBinding.Converter>
+                      <Binding Path="CommandParameter" RelativeSource="{RelativeSource Self}" />
+                      <Binding Path="CurrentLayout.LayoutType" />
+                    </MultiBinding>
+                  </DataTrigger.Binding>
+                  <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+                </DataTrigger>
 
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.HomeLayout}" 
+              </Style.Triggers>
+            </Style>
+          </StackPanel.Resources>
+          <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.HomeLayout}" 
                             Tools:AP.IconKind="Home" Height="30" ToolTip="Home Layout"/>
-                    <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.ListLayout}" 
+          <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.ListLayout}" 
                             Tools:AP.IconKind="ViewHeadline" Height="40" ToolTip="List Layout"/>
-                    <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.CardLayout}" 
+          <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.CardLayout}" 
                             Tools:AP.IconKind="ViewCompact" Height="40" RenderTransformOrigin="0.5 0.5" ToolTip="Card Layout">
-                        <Button.RenderTransform>
-                            <ScaleTransform ScaleY="-1"/>
-                        </Button.RenderTransform>
-                    </Button>
-                    <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.TileLayout}" 
+            <Button.RenderTransform>
+              <ScaleTransform ScaleY="-1"/>
+            </Button.RenderTransform>
+          </Button>
+          <Button Command="{Binding ChangeFileViewCommand}" CommandParameter="{x:Static Tools:Enums+CodexLayout.TileLayout}" 
                             Tools:AP.IconKind="ViewModule" Height="43" ToolTip="Tile Layout"/>
-                    <Rectangle Width="2" Fill="Gray" Margin="3,8"/>
-                    <Button Click="Toggle_ContextMenu" Tools:AP.IconKind="EyeSettings" Height="30" 
+          <Rectangle Width="2" Fill="Gray" Margin="3,8"/>
+          <Button Click="Toggle_ContextMenu" Tools:AP.IconKind="EyeSettings" Height="30" 
                             VerticalAlignment="Center" Margin="0,0,2,5" CommandParameter="{x:Null}">
-                        <Button.ContextMenu>
-                            <ContextMenu IsEnabled="True" Placement="Bottom" ItemsSource="{Binding CurrentLayout.ViewOptions}"
+            <Button.ContextMenu>
+              <ContextMenu IsEnabled="True" Placement="Bottom" ItemsSource="{Binding CurrentLayout.ViewOptions}"
                             Style="{StaticResource DropdownMenu}" ItemContainerStyle="{StaticResource DropdownMenuItem}"/>
-                        </Button.ContextMenu>
-                    </Button>
-                </StackPanel>
-                <!--#endregion-->
+            </Button.ContextMenu>
+          </Button>
+        </StackPanel>
+        <!--#endregion-->
 
-                <!--#region Current Filters-->
-                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="CurrentTagTextBlock" Text="Filters:" Margin="10,0" VerticalAlignment="Center"/>
-                <Border CornerRadius="5" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row ="1" MinHeight="40"
+        <!--#region Current Filters-->
+        <TextBlock Grid.Column="0" Grid.Row="1" x:Name="CurrentTagTextBlock" Text="Filters:" Margin="10,0" VerticalAlignment="Center"/>
+        <Border CornerRadius="5" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row ="1" MinHeight="40"
                     Margin="0,10" Background="{StaticResource FiltersBackground}">
-                    <Grid>
-                        <Grid.Resources>
-                            <CollectionViewSource x:Key="Tags" Source="{Binding CollectionVM.ActiveTags}"/>
-                            <CollectionViewSource x:Key="Filters" Source="{Binding CollectionVM.ActiveFilters}"/>
-                            <CollectionViewSource x:Key="Searches" Source="{Binding CollectionVM.SearchFilters}"/>
-                        </Grid.Resources>
-                        <ListBox x:Name="CurrentTagList" BorderBrush="{x:Null}" 
+          <Grid>
+            <Grid.Resources>
+              <CollectionViewSource x:Key="Tags" Source="{Binding CollectionVM.ActiveTags}"/>
+              <CollectionViewSource x:Key="Filters" Source="{Binding CollectionVM.ActiveFilters}"/>
+              <CollectionViewSource x:Key="Searches" Source="{Binding CollectionVM.SearchFilters}"/>
+            </Grid.Resources>
+            <ListBox x:Name="CurrentTagList" BorderBrush="{x:Null}" 
                      SelectionChanged="ActiveTag_Click" Background="{x:Null}" ItemTemplate="{StaticResource TagDeletableTemplate}">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ActualWidth, ElementName=CurrentTagList}"/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemsSource>
-                                <CompositeCollection>
-                                    <CollectionContainer Collection="{Binding Source={StaticResource Tags}}" />
-                                    <CollectionContainer Collection="{Binding Source={StaticResource Filters}}" />
-                                    <CollectionContainer Collection="{Binding Source={StaticResource Searches}}" />
-                                </CompositeCollection>
-                            </ListBox.ItemsSource>
-                        </ListBox>
-                        <Button x:Name="ResetBtn" Command="{Binding ResetCommand}" Margin="10,0"
+              <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ActualWidth, ElementName=CurrentTagList}"/>
+                </ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
+              <ListBox.ItemsSource>
+                <CompositeCollection>
+                  <CollectionContainer Collection="{Binding Source={StaticResource Tags}}" />
+                  <CollectionContainer Collection="{Binding Source={StaticResource Filters}}" />
+                  <CollectionContainer Collection="{Binding Source={StaticResource Searches}}" />
+                </CompositeCollection>
+              </ListBox.ItemsSource>
+            </ListBox>
+            <Button x:Name="ResetBtn" Command="{Binding ResetCommand}" Margin="10,0"
                         Background="{StaticResource SelectableTransparent}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Width="30">
-                            <materialDesign:PackIcon Kind="WindowClose"/>
-                        </Button>
-                    </Grid>
-                </Border>
-                <!--#endregion-->
+              <materialDesign:PackIcon Kind="WindowClose"/>
+            </Button>
+          </Grid>
+        </Border>
+        <!--#endregion-->
 
-                <ContentControl Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Content="{Binding CurrentLayout}"
+        <ContentControl Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Content="{Binding CurrentLayout}"
                                  Visibility="{Binding CurrentCollection.AllCodices.Count, Converter={StaticResource ToVisibilityConverter}, ConverterParameter=False}"/>
-                <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" BorderBrush="Gray" BorderThickness="2" CornerRadius="3" Margin="20"
+        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" BorderBrush="Gray" BorderThickness="2" CornerRadius="3" Margin="20"
                         Visibility="{Binding CurrentCollection.AllCodices.Count, Converter={StaticResource ToVisibilityConverter}, ConverterParameter=True}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                <Setter Property="TextAlignment" Value="Center"/>
-                                <Setter Property="Margin" Value="5"/>
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock Text="Thank you for downloading COMPASS!"/>                        
-                        <TextBlock Text="The Codex Organizer to Make Pen&amp;paper Adventuring Super Simple."/>                        
-                        <TextBlock Text="You can start building your digital library by clicking 'Import' in the bottom left."/>                        
-                    </StackPanel>
-                </Border>
-            </Grid>
-            <!--#endregion-->
-        </Grid>
-    </Border>
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel.Resources>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+              </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="Thank you for downloading COMPASS!"/>
+            <TextBlock Text="The Codex Organizer to Make Pen&amp;paper Adventuring Super Simple."/>
+            <TextBlock Text="You can start building your digital library by clicking 'Import' in the bottom left."/>
+          </StackPanel>
+        </Border>
+      </Grid>
+      <!--#endregion-->
+    </Grid>
+  </Border>
 
 </Window>
     

@@ -5,22 +5,22 @@ using static COMPASS.Tools.Enums;
 
 namespace COMPASS.Models
 {
-    public class FilterTag:Tag
+  public class FilterTag : Tag
+  {
+    public FilterTag() : base() { }
+    public FilterTag(ObservableCollection<FilterTag> alltags, FilterType filtertype, object filterValue = null)
     {
-        public FilterTag():base() { }
-        public FilterTag(ObservableCollection<FilterTag> alltags,FilterType filtertype, object filterValue = null)
-        {
-            ID = Utils.GetAvailableID(alltags.ToList<IHasID>());
-            FT = filtertype;
-            FilterValue = filterValue;
-        }
-
-        readonly FilterType FT;
-        public object FilterValue { get; init; }
-
-        public override object GetGroup()
-        {
-            return FT;
-        }
+      ID = Utils.GetAvailableID(alltags.ToList<IHasID>());
+      FT = filtertype;
+      FilterValue = filterValue;
     }
+
+    readonly FilterType FT;
+    public object FilterValue { get; init; }
+
+    public override object GetGroup()
+    {
+      return FT;
+    }
+  }
 }
