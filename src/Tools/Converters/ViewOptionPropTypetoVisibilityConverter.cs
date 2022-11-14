@@ -9,15 +9,27 @@ namespace COMPASS.Tools.Converters
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if (value == null) return null;
+      if (value == null)
+      {
+        return null;
+      }
+
       switch (parameter)
       {
         case "Boolean":
-          if (value.GetType() == typeof(bool)) return Visibility.Visible;
+          if (value.GetType() == typeof(bool))
+          {
+            return Visibility.Visible;
+          }
+
           break;
 
         case "Number":
-          if (value.GetType() == typeof(float) || value.GetType() == typeof(int) || value.GetType() == typeof(double)) return Visibility.Visible;
+          if (value.GetType() == typeof(float) || value.GetType() == typeof(int) || value.GetType() == typeof(double))
+          {
+            return Visibility.Visible;
+          }
+
           break;
       }
       return Visibility.Collapsed;

@@ -23,7 +23,7 @@ namespace COMPASS.Views
     public void HandleDoubleClick(object sender, MouseButtonEventArgs e)
     {
       Codex toOpen = ((DataGridRow)sender).DataContext as Codex;
-      CodexViewModel.OpenCodex(toOpen);
+      _ = CodexViewModel.OpenCodex(toOpen);
     }
 
     //Make sure selected Item is always in view

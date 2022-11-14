@@ -34,17 +34,17 @@ namespace COMPASS.ViewModels
     private bool _showTitle = true;
     public bool ShowTitle
     {
-      get { return _showTitle; }
-      set { SetProperty(ref _showTitle, value); }
+      get => _showTitle;
+      set => SetProperty(ref _showTitle, value);
     }
 
     private bool _showAuthor = Properties.Settings.Default.CardShowAuthor;
     public bool ShowAuthor
     {
-      get { return _showAuthor; }
+      get => _showAuthor;
       set
       {
-        SetProperty(ref _showAuthor, value);
+        _ = SetProperty(ref _showAuthor, value);
         Properties.Settings.Default.CardShowAuthor = value;
       }
     }
@@ -52,10 +52,10 @@ namespace COMPASS.ViewModels
     private bool _showPublisher = Properties.Settings.Default.CardShowPublisher;
     public bool ShowPublisher
     {
-      get { return _showPublisher; }
+      get => _showPublisher;
       set
       {
-        SetProperty(ref _showPublisher, value);
+        _ = SetProperty(ref _showPublisher, value);
         Properties.Settings.Default.CardShowPublisher = value;
       }
     }
@@ -63,10 +63,10 @@ namespace COMPASS.ViewModels
     private bool _ShowReleaseDate = Properties.Settings.Default.CardShowRelease;
     public bool ShowReleaseDate
     {
-      get { return _ShowReleaseDate; }
+      get => _ShowReleaseDate;
       set
       {
-        SetProperty(ref _ShowReleaseDate, value);
+        _ = SetProperty(ref _ShowReleaseDate, value);
         Properties.Settings.Default.CardShowRelease = value;
       }
     }
@@ -74,10 +74,10 @@ namespace COMPASS.ViewModels
     private bool _showVersion = Properties.Settings.Default.CardShowVersion;
     public bool ShowVersion
     {
-      get { return _showVersion; }
+      get => _showVersion;
       set
       {
-        SetProperty(ref _showVersion, value);
+        _ = SetProperty(ref _showVersion, value);
         Properties.Settings.Default.CardShowVersion = value;
       }
     }
@@ -85,10 +85,10 @@ namespace COMPASS.ViewModels
     private bool _showRating = Properties.Settings.Default.CardShowRating;
     public bool ShowRating
     {
-      get { return _showRating; }
+      get => _showRating;
       set
       {
-        SetProperty(ref _showRating, value);
+        _ = SetProperty(ref _showRating, value);
         Properties.Settings.Default.CardShowRating = value;
       }
     }
@@ -96,10 +96,10 @@ namespace COMPASS.ViewModels
     private bool _showTags = Properties.Settings.Default.CardShowTags;
     public bool ShowTags
     {
-      get { return _showTags; }
+      get => _showTags;
       set
       {
-        SetProperty(ref _showTags, value);
+        _ = SetProperty(ref _showTags, value);
         Properties.Settings.Default.CardShowTags = value;
       }
     }
@@ -107,10 +107,10 @@ namespace COMPASS.ViewModels
     private bool _showFileIcons = Properties.Settings.Default.CardShowFileIcons;
     public bool ShowFileIcons
     {
-      get { return _showFileIcons; }
+      get => _showFileIcons;
       set
       {
-        SetProperty(ref _showFileIcons, value);
+        _ = SetProperty(ref _showFileIcons, value);
         Properties.Settings.Default.CardShowFileIcons = value;
       }
     }

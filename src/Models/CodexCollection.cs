@@ -1,6 +1,5 @@
 ﻿using COMPASS.Tools;
 using COMPASS.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -21,14 +20,14 @@ namespace COMPASS.Models
       Properties.Settings.Default.StartupCollection = collectionDirectory;
     }
 
-    public readonly static string CollectionsPath = Constants.CompassDataPath + @"\Collections\";
+    public static readonly string CollectionsPath = Constants.CompassDataPath + @"\Collections\";
 
     #region Properties
     private string _directoryName;
     public string DirectoryName
     {
-      get { return _directoryName; }
-      set { SetProperty(ref _directoryName, value); }
+      get => _directoryName;
+      set => SetProperty(ref _directoryName, value);
     }
 
     public string CodicesDataFilePath => CollectionsPath + DirectoryName + @"\CodexInfo.xml";
@@ -45,15 +44,15 @@ namespace COMPASS.Models
     private ObservableCollection<string> _authorList = new();
     public ObservableCollection<string> AuthorList
     {
-      get { return _authorList; }
-      set { SetProperty(ref _authorList, value); }
+      get => _authorList;
+      set => SetProperty(ref _authorList, value);
     }
 
     private ObservableCollection<string> _publisherList = new();
     public ObservableCollection<string> PublisherList
     {
-      get { return _publisherList; }
-      set { SetProperty(ref _publisherList, value); }
+      get => _publisherList;
+      set => SetProperty(ref _publisherList, value);
     }
     #endregion
 
@@ -64,7 +63,7 @@ namespace COMPASS.Models
       if (File.Exists(TagsDataFilepath))
       {
         //loading root tags          
-        using (var Reader = new StreamReader(TagsDataFilepath))
+        using (StreamReader Reader = new(TagsDataFilepath))
         {
           System.Xml.Serialization.XmlSerializer serializer = new(typeof(List<Tag>));
           RootTags = serializer.Deserialize(Reader) as List<Tag>;
@@ -72,7 +71,10 @@ namespace COMPASS.Models
 
         //Constructing AllTags and pass it to all the tags
         AllTags = Utils.FlattenTree(RootTags).ToList();
-        foreach (Tag t in AllTags) t.AllTags = AllTags;
+        foreach (Tag t in AllTags)
+        {
+          t.AllTags = AllTags;
+        }
       }
       else
       {
@@ -85,7 +87,7 @@ namespace COMPASS.Models
     {
       if (File.Exists(CodicesDataFilePath))
       {
-        using (var Reader = new StreamReader(CodicesDataFilePath))
+        using (StreamReader Reader = new(CodicesDataFilePath))
         {
           System.Xml.Serialization.XmlSerializer serializer = new(typeof(ObservableCollection<Codex>));
           AllCodices = serializer.Deserialize(Reader) as ObservableCollection<Codex>;
@@ -96,7 +98,10 @@ namespace COMPASS.Models
         {
           //Populate Author and Publisher List
           AddAuthors(f);
-          if (!String.IsNullOrEmpty(f.Publisher) && !PublisherList.Contains(f.Publisher)) PublisherList.Add(f.Publisher);
+          if (!string.IsNullOrEmpty(f.Publisher) && !PublisherList.Contains(f.Publisher))
+          {
+            PublisherList.Add(f.Publisher);
+          }
 
           //reconstruct tags from ID's
           foreach (int id in f.TagIDs)
@@ -122,7 +127,7 @@ namespace COMPASS.Models
 
     public void SaveTags()
     {
-      using var writer = XmlWriter.Create(TagsDataFilepath, SettingsViewModel.XmlWriteSettings);
+      using XmlWriter writer = XmlWriter.Create(TagsDataFilepath, SettingsViewModel.XmlWriteSettings);
       System.Xml.Serialization.XmlSerializer serializer = new(typeof(List<Tag>));
       serializer.Serialize(writer, RootTags);
     }
@@ -135,7 +140,7 @@ namespace COMPASS.Models
         codex.TagIDs = codex.Tags.Select(t => t.ID).ToList();
       }
 
-      using var writer = XmlWriter.Create(CodicesDataFilePath, SettingsViewModel.XmlWriteSettings);
+      using XmlWriter writer = XmlWriter.Create(CodicesDataFilePath, SettingsViewModel.XmlWriteSettings);
       System.Xml.Serialization.XmlSerializer serializer = new(typeof(ObservableCollection<Codex>));
       serializer.Serialize(writer, AllCodices);
     }
@@ -145,7 +150,7 @@ namespace COMPASS.Models
     public void DeleteCodex(Codex Todelete)
     {
       //Delete file from all lists
-      AllCodices.Remove(Todelete);
+      _ = AllCodices.Remove(Todelete);
 
       //Delete Coverart & Thumbnail
       File.Delete(Todelete.CoverArt);
@@ -160,10 +165,9 @@ namespace COMPASS.Models
         DeleteTag(todel.Children[0]);
         DeleteTag(todel);
       }
-      AllTags.Remove(todel);
+      _ = AllTags.Remove(todel);
       //remove from parent items list
-      if (todel.ParentID == -1) RootTags.Remove(todel);
-      else todel.GetParent().Children.Remove(todel);
+      _ = todel.ParentID == -1 ? RootTags.Remove(todel) : todel.GetParent().Children.Remove(todel);
     }
 
     public void RenameCollection(string NewCollectionName)
@@ -180,10 +184,12 @@ namespace COMPASS.Models
 
     public void AddAuthors(Codex codex)
     {
-      foreach (var author in codex.Authors)
+      foreach (string author in codex.Authors)
       {
-        if (!String.IsNullOrEmpty(author) && !AuthorList.Contains(author))
+        if (!string.IsNullOrEmpty(author) && !AuthorList.Contains(author))
+        {
           AuthorList.Add(author);
+        }
       }
     }
   }

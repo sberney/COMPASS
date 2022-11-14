@@ -27,12 +27,15 @@ namespace COMPASS.Windows
 
     private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-      if (ProgBar.Value >= 100) this.Close();
+      if (ProgBar.Value >= 100)
+      {
+        Close();
+      }
     }
 
     private void Close_Click(object sender, RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
   }
 }

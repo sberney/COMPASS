@@ -17,25 +17,25 @@ namespace COMPASS.Resources.Controls
 
     public object Toggle
     {
-      get { return (object)GetValue(ToggleProperty); }
-      set { SetValue(ToggleProperty, value); }
+      get => GetValue(ToggleProperty);
+      set => SetValue(ToggleProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for Toggle.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ToggleProperty =
-        DependencyProperty.Register("Toggle", typeof(object), typeof(ExpandingButton), new PropertyMetadata(0));
+    DependencyProperty.Register("Toggle", typeof(object), typeof(ExpandingButton), new PropertyMetadata(0));
 
 
 
     public object HiddenContent
     {
-      get { return (object)GetValue(HiddenContentProperty); }
-      set { SetValue(HiddenContentProperty, value); }
+      get => GetValue(HiddenContentProperty);
+      set => SetValue(HiddenContentProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for HiddenContent.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty HiddenContentProperty =
-        DependencyProperty.Register("HiddenContent", typeof(object), typeof(ExpandingButton), new PropertyMetadata(0));
+    DependencyProperty.Register("HiddenContent", typeof(object), typeof(ExpandingButton), new PropertyMetadata(0));
 
     //Ischecked not working as it should when content of togglebtn is also a btn, This fixes that
     private void CheckedChanged(object sender, RoutedEventArgs e)
@@ -92,7 +92,7 @@ namespace COMPASS.Resources.Controls
       //}
     }
 
-    bool animating = false;
+    private bool animating = false;
 
     private void HiddenContentControl_LayoutUpdated(object sender, EventArgs e)
     {
@@ -100,8 +100,8 @@ namespace COMPASS.Resources.Controls
       {
         animating = true;
         HiddenContentGrid.Measure(new Size(1920, 700));
-        DoubleAnimation animHeight = new DoubleAnimation();
-        DoubleAnimation animWidth = new DoubleAnimation();
+        DoubleAnimation animHeight = new();
+        DoubleAnimation animWidth = new();
         animHeight.From = OutsidePanel.ActualHeight;
         animWidth.From = OutsidePanel.ActualWidth;
         animHeight.To = HiddenContentGrid.DesiredSize.Height + ToggleBtn.ActualHeight;
@@ -112,7 +112,7 @@ namespace COMPASS.Resources.Controls
         Storyboard.SetTarget(animWidth, OutsidePanel);
         Storyboard.SetTargetProperty(animHeight, new PropertyPath(HeightProperty));
         Storyboard.SetTargetProperty(animWidth, new PropertyPath(WidthProperty));
-        Storyboard st = new Storyboard();
+        Storyboard st = new();
         st.Children.Add(animHeight);
         //st.Children.Add(animWidth);
         st.Completed += (a, b) => { animating = false; };

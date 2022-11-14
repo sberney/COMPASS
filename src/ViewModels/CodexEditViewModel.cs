@@ -15,31 +15,34 @@ namespace COMPASS.ViewModels
       EditedCodex = toEdit;
       //apply all changes to new codex so they can be cancelled, only copy changes over after OK is clicked
       TempCodex = new(MVM.CurrentCollection);
-      if (!CreateNewCodex) TempCodex.Copy(EditedCodex);
+      if (!CreateNewCodex)
+      {
+        TempCodex.Copy(EditedCodex);
+      }
 
       //Apply right checkboxes in Alltags
       foreach (TreeViewNode t in AllTreeViewNodes)
       {
         t.Expanded = false;
         t.Selected = TempCodex.Tags.Contains(t.Tag);
-        if (t.Children.Any(node => TempCodex.Tags.Contains(node.Tag))) t.Expanded = true;
+        if (t.Children.Any(node => TempCodex.Tags.Contains(node.Tag)))
+        {
+          t.Expanded = true;
+        }
       }
     }
 
     #region Properties
 
-    readonly Codex EditedCodex;
+    private readonly Codex EditedCodex;
 
-    private bool CreateNewCodex
-    {
-      get { return EditedCodex == null; }
-    }
+    private bool CreateNewCodex => EditedCodex == null;
 
     private Codex _tempCodex;
     public Codex TempCodex
     {
-      get { return _tempCodex; }
-      set { SetProperty(ref _tempCodex, value); }
+      get => _tempCodex;
+      set => SetProperty(ref _tempCodex, value);
     }
 
     private bool CoverArtChanged = false;
@@ -70,7 +73,9 @@ namespace COMPASS.ViewModels
     private void BrowseURL()
     {
       if (CodexViewModel.CanOpenCodexOnline(TempCodex))
-        CodexViewModel.OpenCodexOnline(TempCodex);
+      {
+        _ = CodexViewModel.OpenCodexOnline(TempCodex);
+      }
     }
 
     private ActionCommand _tagCheckCommand;
@@ -102,7 +107,7 @@ namespace COMPASS.ViewModels
     public ActionCommand FetchCoverCommand => _fetchCoverCommand ??= new(FetchCover);
     private void FetchCover()
     {
-      CoverFetcher.GetCover(TempCodex);
+      _ = CoverFetcher.GetCover(TempCodex);
       RefreshCover();
     }
 
@@ -143,7 +148,10 @@ namespace COMPASS.ViewModels
     public void OKBtn()
     {
       //Copy changes into Codex
-      if (!CreateNewCodex) EditedCodex.Copy(TempCodex);
+      if (!CreateNewCodex)
+      {
+        EditedCodex.Copy(TempCodex);
+      }
       else
       {
         Codex ToAdd = new();
@@ -154,10 +162,16 @@ namespace COMPASS.ViewModels
       //Add new Author and Publishers to lists
       MVM.CurrentCollection.AddAuthors(TempCodex);
       if (TempCodex.Publisher != "" && !MVM.CurrentCollection.PublisherList.Contains(TempCodex.Publisher))
+      {
         MVM.CurrentCollection.PublisherList.Add(TempCodex.Publisher);
+      }
 
       //reset needed to show art update
-      if (CoverArtChanged) MVM.Refresh();
+      if (CoverArtChanged)
+      {
+        MVM.Refresh();
+      }
+
       CloseAction();
     }
 

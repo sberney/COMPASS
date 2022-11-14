@@ -19,7 +19,11 @@ namespace COMPASS.ViewModels
     public static bool OpenCodex(Codex codex)
     {
       bool success = Utils.TryFunctions(MVM.SettingsVM.OpenCodexPriority, codex);
-      if (!success) MessageBox.Show("Could not open codex, please check local path or URL");
+      if (!success)
+      {
+        _ = MessageBox.Show("Could not open codex, please check local path or URL");
+      }
+
       return success;
     }
 
@@ -27,10 +31,14 @@ namespace COMPASS.ViewModels
     public ReturningRelayCommand<Codex> OpenCodexLocallyCommand => new(OpenCodexLocally, CanOpenCodexLocally);
     public static bool OpenCodexLocally(Codex toOpen)
     {
-      if (String.IsNullOrEmpty(toOpen.Path)) return false;
+      if (string.IsNullOrEmpty(toOpen.Path))
+      {
+        return false;
+      }
+
       try
       {
-        Process.Start(new ProcessStartInfo(toOpen.Path) { UseShellExecute = true });
+        _ = Process.Start(new ProcessStartInfo(toOpen.Path) { UseShellExecute = true });
         toOpen.LastOpened = DateTime.Now;
         toOpen.OpenedCount++;
         return true;
@@ -39,26 +47,27 @@ namespace COMPASS.ViewModels
       {
         Logger.log.Error(ex.InnerException);
 
-        if (toOpen == null) return false;
+        if (toOpen == null)
+        {
+          return false;
+        }
 
         //Check if folder exists, if not ask users to rename
-        var dir = Path.GetDirectoryName(toOpen.Path);
+        string dir = Path.GetDirectoryName(toOpen.Path);
         if (!Directory.Exists(dir))
         {
           string message = $"{toOpen.Path} could not be found. \n" +
           $"If you renamed a folder, go to \n" +
           $"Settings -> General -> Fix Renamed Folder\n" +
           $"to update all references to the old folder name.";
-          MessageBox.Show(message, "Path could not be found", MessageBoxButton.OK, MessageBoxImage.Warning);
+          _ = MessageBox.Show(message, "Path could not be found", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         return false;
       }
     }
     public static bool CanOpenCodexLocally(Codex toOpen)
     {
-      if (toOpen == null) return false;
-
-      return toOpen.HasOfflineSource();
+      return toOpen != null && toOpen.HasOfflineSource();
     }
 
     //Open File Online
@@ -66,11 +75,14 @@ namespace COMPASS.ViewModels
     public static bool OpenCodexOnline(Codex toOpen)
     {
       //fails if no internet, pinging 8.8.8.8 DNS instead of server because some sites like gmbinder block ping
-      if (!Utils.PingURL()) return false;
+      if (!Utils.PingURL())
+      {
+        return false;
+      }
 
       try
       {
-        Process.Start(new ProcessStartInfo(toOpen.SourceURL) { UseShellExecute = true });
+        _ = Process.Start(new ProcessStartInfo(toOpen.SourceURL) { UseShellExecute = true });
         toOpen.LastOpened = DateTime.Now;
         toOpen.OpenedCount++;
         return true;
@@ -84,16 +96,18 @@ namespace COMPASS.ViewModels
     }
     public static bool CanOpenCodexOnline(Codex toOpen)
     {
-      if (toOpen == null) return false;
-
-      return toOpen.HasOnlineSource();
+      return toOpen != null && toOpen.HasOnlineSource();
     }
 
     //Open Multiple Files
     public ReturningRelayCommand<IEnumerable> OpenSelectedCodicesCommand => new(OpenSelectedCodices);
     public static bool OpenSelectedCodices(IEnumerable toOpen)
     {
-      if (toOpen == null) return false;
+      if (toOpen == null)
+      {
+        return false;
+      }
+
       List<Codex> ToOpen = toOpen.Cast<Codex>().ToList();
       //MessageBox "Are you Sure?"
       string sMessageBoxText = "You are about to open " + ToOpen.Count + " Files. Are you sure you wish to continue?";
@@ -106,7 +120,11 @@ namespace COMPASS.ViewModels
 
       if (rsltMessageBox == MessageBoxResult.Yes)
       {
-        foreach (Codex f in ToOpen) OpenCodex(f);
+        foreach (Codex f in ToOpen)
+        {
+          _ = OpenCodex(f);
+        }
+
         return true;
       }
       else { return false; }
@@ -118,7 +136,7 @@ namespace COMPASS.ViewModels
     {
       //MVM.CurrentEditViewModel = new CodexEditViewModel(toEdit);
       FilePropWindow fpw = new(new CodexEditViewModel(toEdit));
-      fpw.ShowDialog();
+      _ = fpw.ShowDialog();
       fpw.Topmost = true;
     }
 
@@ -136,10 +154,14 @@ namespace COMPASS.ViewModels
     public RelayCommand<IEnumerable> EditCodicesCommand => new(EditCodices);
     public static void EditCodices(IEnumerable toEdit)
     {
-      if (toEdit == null) return;
+      if (toEdit == null)
+      {
+        return;
+      }
+
       List<Codex> ToEdit = toEdit.Cast<Codex>().ToList();
       FileBulkEditWindow fpw = new(new CodexBulkEditViewModel(ToEdit));
-      fpw.ShowDialog();
+      _ = fpw.ShowDialog();
       fpw.Topmost = true;
     }
 
@@ -153,7 +175,7 @@ namespace COMPASS.ViewModels
         Arguments = folderPath,
         FileName = "explorer.exe"
       };
-      Process.Start(startInfo);
+      _ = Process.Start(startInfo);
     }
 
 
@@ -166,12 +188,25 @@ namespace COMPASS.ViewModels
       string targetCollectionName;
 
       //extract Collection parameter
-      if (par[0] != null) targetCollectionName = (string)(par[0]);
-      else return;
-      if (targetCollectionName == MVM.CurrentCollectionName) return;
+      if (par[0] != null)
+      {
+        targetCollectionName = (string)par[0];
+      }
+      else
+      {
+        return;
+      }
+
+      if (targetCollectionName == MVM.CurrentCollectionName)
+      {
+        return;
+      }
 
       //extract Codex parameter
-      if (par[1] as Codex != null) ToMoveList.Add((Codex)par[1]);
+      if ((par[1] as Codex) != null)
+      {
+        ToMoveList.Add((Codex)par[1]);
+      }
       else
       {
         IList list = par[1] as IList;
@@ -204,7 +239,10 @@ namespace COMPASS.ViewModels
 
           //Update Author and Publisher List
           TargetCollection.AddAuthors(ToMove);
-          if (ToMove.Publisher != "" && !TargetCollection.PublisherList.Contains(ToMove.Publisher)) TargetCollection.PublisherList.Add(ToMove.Publisher);
+          if (ToMove.Publisher != "" && !TargetCollection.PublisherList.Contains(ToMove.Publisher))
+          {
+            TargetCollection.PublisherList.Add(ToMove.Publisher);
+          }
 
           //Move cover art to right folder with new ID
           string newCoverArt = CodexCollection.CollectionsPath + targetCollectionName + @"\CoverArt\" + ToMove.ID + ".png";
@@ -233,7 +271,10 @@ namespace COMPASS.ViewModels
       List<Codex> ToDeleteList = new();
 
       // if single codex, add to list
-      if (o as Codex != null) ToDeleteList.Add(o as Codex);
+      if ((o as Codex) != null)
+      {
+        ToDeleteList.Add(o as Codex);
+      }
       // if already list, cast is as such
       else
       {

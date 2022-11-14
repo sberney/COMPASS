@@ -12,7 +12,7 @@ using System.Windows.Data;
 
 namespace COMPASS.Resources.Controls
 {
-  class EnhancedDataGrid : DataGrid
+  internal class EnhancedDataGrid : DataGrid
   {
     private bool inWidthChange = false;
     private bool updatingColumnInfo = false;
@@ -22,23 +22,27 @@ namespace COMPASS.Resources.Controls
         );
     private static void ColumnInfoChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
-      var grid = (EnhancedDataGrid)dependencyObject;
+      EnhancedDataGrid grid = (EnhancedDataGrid)dependencyObject;
       if (!grid.updatingColumnInfo) { grid.ColumnInfoChanged(); }
     }
     protected override void OnInitialized(EventArgs e)
     {
-      EventHandler widthPropertyChangedHandler = (sender, x) => inWidthChange = true;
-      var widthPropertyDescriptor = DependencyPropertyDescriptor.FromProperty(DataGridColumn.WidthProperty, typeof(DataGridColumn));
+      void widthPropertyChangedHandler(object sender, EventArgs x)
+      {
+        inWidthChange = true;
+      }
+
+      DependencyPropertyDescriptor widthPropertyDescriptor = DependencyPropertyDescriptor.FromProperty(DataGridColumn.WidthProperty, typeof(DataGridColumn));
       Loaded += (sender, x) =>
       {
-        foreach (var column in Columns)
+        foreach (DataGridColumn column in Columns)
         {
           widthPropertyDescriptor.AddValueChanged(column, widthPropertyChangedHandler);
         }
       };
       Unloaded += (sender, x) =>
       {
-        foreach (var column in Columns)
+        foreach (DataGridColumn column in Columns)
         {
           widthPropertyDescriptor.RemoveValueChanged(column, widthPropertyChangedHandler);
         }
@@ -47,8 +51,8 @@ namespace COMPASS.Resources.Controls
     }
     public ObservableCollection<ColumnInfo> ColumnInfo
     {
-      get { return (ObservableCollection<ColumnInfo>)GetValue(ColumnInfoProperty); }
-      set { SetValue(ColumnInfoProperty, value); }
+      get => (ObservableCollection<ColumnInfo>)GetValue(ColumnInfoProperty);
+      set => SetValue(ColumnInfoProperty, value);
     }
     private void UpdateColumnInfo()
     {
@@ -67,7 +71,7 @@ namespace COMPASS.Resources.Controls
     }
     protected override void OnSorting(DataGridSortingEventArgs eventArgs)
     {
-      Dispatcher.BeginInvoke(new Action(UpdateColumnInfo));
+      _ = Dispatcher.BeginInvoke(new Action(UpdateColumnInfo));
       base.OnSorting(eventArgs);
     }
     protected override void OnPreviewMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
@@ -84,9 +88,9 @@ namespace COMPASS.Resources.Controls
       Items.SortDescriptions.Clear();
       if (ColumnInfo != null)
       {
-        foreach (var column in ColumnInfo)
+        foreach (ColumnInfo column in ColumnInfo)
         {
-          var realColumn = Columns.Where((x) => column.Header.Equals(x.Header)).FirstOrDefault();
+          DataGridColumn realColumn = Columns.Where((x) => column.Header.Equals(x.Header)).FirstOrDefault();
           if (realColumn == null) { continue; }
           column.Apply(realColumn, Columns.Count, Items.SortDescriptions);
         }
@@ -110,19 +114,12 @@ namespace COMPASS.Resources.Controls
       WidthType = column.Width.UnitType;
       SortDirection = column.SortDirection;
       DisplayIndex = column.DisplayIndex;
-      switch (column)
+      PropertyPath = column switch
       {
-        case DataGridTemplateColumn templateColumn:
-          PropertyPath = templateColumn.SortMemberPath;
-          break;
-        case DataGridComboBoxColumn boxColumn:
-          PropertyPath = ((Binding)boxColumn.SelectedItemBinding).Path.Path;
-          break;
-        default:
-          PropertyPath = ((Binding)((DataGridBoundColumn)column).Binding).Path.Path;
-          break;
-      }
-
+        DataGridTemplateColumn templateColumn => templateColumn.SortMemberPath,
+        DataGridComboBoxColumn boxColumn => ((Binding)boxColumn.SelectedItemBinding).Path.Path,
+        _ => ((Binding)((DataGridBoundColumn)column).Binding).Path.Path,
+      };
     }
     public void Apply(DataGridColumn column, int gridColumnCount, SortDescriptionCollection sortDescriptions)
     {
@@ -138,7 +135,7 @@ namespace COMPASS.Resources.Controls
       }
       if (column.DisplayIndex != DisplayIndex)
       {
-        var maxIndex = (gridColumnCount == 0) ? 0 : gridColumnCount - 1;
+        int maxIndex = (gridColumnCount == 0) ? 0 : gridColumnCount - 1;
         column.DisplayIndex = (DisplayIndex <= maxIndex) ? DisplayIndex : maxIndex;
       }
     }

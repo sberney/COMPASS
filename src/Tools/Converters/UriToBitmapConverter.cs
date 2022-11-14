@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace COMPASS.Tools.Converters
 {
-  class UriToBitmapConverter : IValueConverter
+  internal class UriToBitmapConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
@@ -16,14 +16,7 @@ namespace COMPASS.Tools.Converters
         BitmapImage bi = new();
         bi.BeginInit();
 
-        if (Fullres)
-        {
-          bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-        }
-        else
-        {
-          bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-        }
+        bi.CreateOptions = Fullres ? BitmapCreateOptions.IgnoreImageCache : BitmapCreateOptions.DelayCreation;
         bi.CacheOption = BitmapCacheOption.OnLoad;
         bi.UriSource = new Uri(value.ToString());
         bi.EndInit();

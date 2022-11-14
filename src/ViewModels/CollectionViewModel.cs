@@ -22,8 +22,8 @@ namespace COMPASS.ViewModels
       ActiveFiles = new(_cc.AllCodices);
 
       //load sorting from settings
-      var PropertyPath = (string)Properties.Settings.Default["SortProperty"];
-      var SortDirection = (ListSortDirection)Properties.Settings.Default["SortDirection"];
+      string PropertyPath = (string)Properties.Settings.Default["SortProperty"];
+      ListSortDirection SortDirection = (ListSortDirection)Properties.Settings.Default["SortDirection"];
       SortBy(PropertyPath, SortDirection);
 
       ExcludedCodicesByTag = new();
@@ -42,8 +42,8 @@ namespace COMPASS.ViewModels
     }
 
     #region Properties
-    readonly CodexCollection _cc;
-    private int _itemsShown = 15;
+    private readonly CodexCollection _cc;
+    private readonly int _itemsShown = 15;
     public int ItemsShown => Math.Min(_itemsShown, ActiveFiles.Count);
 
     //CollectionDirectories
@@ -58,8 +58,8 @@ namespace COMPASS.ViewModels
     private ObservableCollection<Codex> _activeFiles;
     public ObservableCollection<Codex> ActiveFiles
     {
-      get { return _activeFiles; }
-      set { SetProperty(ref _activeFiles, value); }
+      get => _activeFiles;
+      set => SetProperty(ref _activeFiles, value);
     }
 
     public ObservableCollection<Codex> Favorites => new(ActiveFiles.Where(c => c.Favorite));
@@ -70,8 +70,8 @@ namespace COMPASS.ViewModels
     private string _searchTerm;
     public string SearchTerm
     {
-      get { return _searchTerm; }
-      set { SetProperty(ref _searchTerm, value); }
+      get => _searchTerm;
+      set => SetProperty(ref _searchTerm, value);
     }
 
     #endregion
@@ -110,7 +110,7 @@ namespace COMPASS.ViewModels
       foreach (Tag t in ActiveTags)
       {
         Tag Group = (Tag)t.GetGroup();
-        ActiveGroups.Add(Group);
+        _ = ActiveGroups.Add(Group);
       }
 
       //List of Files filtered out in that group
@@ -124,7 +124,10 @@ namespace COMPASS.ViewModels
         for (int i = 0; i < SingleGroupTags.Count; i++)
         {
           Tag P = SingleGroupTags[i].GetParent();
-          if (P != null && !P.IsGroup && !SingleGroupTags.Contains(P)) SingleGroupTags.Add(P);
+          if (P != null && !P.IsGroup && !SingleGroupTags.Contains(P))
+          {
+            SingleGroupTags.Add(P);
+          }
         }
         SingleGroupFilteredFiles = new(_cc.AllCodices.Where(f => !SingleGroupTags.Intersect(f.Tags).Any()));
 
@@ -145,7 +148,7 @@ namespace COMPASS.ViewModels
 
     public void RemoveTagFilter(Tag t)
     {
-      ActiveTags.Remove(t);
+      _ = ActiveTags.Remove(t);
     }
 
     //-------------For Filters------------//
@@ -166,7 +169,10 @@ namespace COMPASS.ViewModels
             .Select(t => t.FilterValue)
             );
         //skip iteration if no filters of this type
-        if (FilterValues.Count == 0) continue;
+        if (FilterValues.Count == 0)
+        {
+          continue;
+        }
 
         //true if filter is inverted => Codices that match filter should NOT be displayed
         bool invert = false;
@@ -205,7 +211,11 @@ namespace COMPASS.ViewModels
             ExcludedCodices = _cc.AllCodices.Where(f => !f.Physically_Owned);
             break;
         }
-        if (invert) ExcludedCodices = _cc.AllCodices.Except(ExcludedCodices);
+        if (invert)
+        {
+          ExcludedCodices = _cc.AllCodices.Except(ExcludedCodices);
+        }
+
         ExcludedCodicesByFilter = ExcludedCodicesByFilter.Union(ExcludedCodices).ToHashSet();
       }
       UpdateActiveFiles();
@@ -214,11 +224,14 @@ namespace COMPASS.ViewModels
     {
       if ((Enums.FilterType)t.GetGroup() == Enums.FilterType.Search)
       {
-        SearchFilters.Remove(t);
+        _ = SearchFilters.Remove(t);
         UpdateSearchFilteredFiles("");
       }
 
-      else ActiveFilters.Remove(t);
+      else
+      {
+        _ = ActiveFilters.Remove(t);
+      }
     }
     //------------------------------------//
 
@@ -247,7 +260,10 @@ namespace COMPASS.ViewModels
         { Content = "Search: " + SearchTerm, BackgroundColor = Colors.Salmon };
         SearchFilters.Add(SearchTag);
       }
-      else ExcludedCodicesBySearch.Clear();
+      else
+      {
+        ExcludedCodicesBySearch.Clear();
+      }
 
       UpdateActiveFiles();
     }
@@ -258,7 +274,7 @@ namespace COMPASS.ViewModels
     {
       if (PropertyPath != null && PropertyPath.Length > 0)
       {
-        var sortDescr = CollectionViewSource.GetDefaultView(ActiveFiles).SortDescriptions;
+        SortDescriptionCollection sortDescr = CollectionViewSource.GetDefaultView(ActiveFiles).SortDescriptions;
         //determine sorting direction, ascending by default
         ListSortDirection lsd = ListSortDirection.Ascending; ;
 
@@ -270,8 +286,7 @@ namespace COMPASS.ViewModels
         {
           if (sortDescr[0].PropertyName == PropertyPath) //if already sorting, change direction
           {
-            if (sortDescr[0].Direction == ListSortDirection.Ascending) lsd = ListSortDirection.Descending;
-            else lsd = ListSortDirection.Ascending;
+            lsd = sortDescr[0].Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
           }
         }
 
@@ -336,10 +351,10 @@ namespace COMPASS.ViewModels
 
     public void RemoveCodex(Codex c)
     {
-      ExcludedCodicesByTag.Remove(c);
-      ExcludedCodicesBySearch.Remove(c);
-      ExcludedCodicesByFilter.Remove(c);
-      ActiveFiles.Remove(c);
+      _ = ExcludedCodicesByTag.Remove(c);
+      _ = ExcludedCodicesBySearch.Remove(c);
+      _ = ExcludedCodicesByFilter.Remove(c);
+      _ = ActiveFiles.Remove(c);
     }
 
     #endregion

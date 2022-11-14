@@ -7,13 +7,13 @@ namespace COMPASS.ViewModels.Commands
   //to for example indicate succes of excecution
   public class ReturningRelayCommand<T> : ICommand
   {
-    private Func<T, bool> _execute;
-    private Func<T, bool> _canExecute;
+    private readonly Func<T, bool> _execute;
+    private readonly Func<T, bool> _canExecute;
 
     public event EventHandler CanExecuteChanged
     {
-      add { CommandManager.RequerySuggested += value; }
-      remove { CommandManager.RequerySuggested -= value; }
+      add => CommandManager.RequerySuggested += value;
+      remove => CommandManager.RequerySuggested -= value;
     }
 
     public ReturningRelayCommand(Func<T, bool> Execute, Func<T, bool> CanExecute = null)
@@ -24,12 +24,12 @@ namespace COMPASS.ViewModels.Commands
 
     public bool CanExecute(object parameter)
     {
-      return _canExecute == null ? true : _canExecute((T)parameter);
+      return _canExecute == null || _canExecute((T)parameter);
     }
 
     public void Execute(object parameter)
     {
-      _execute((T)parameter);
+      _ = _execute((T)parameter);
     }
   }
 }

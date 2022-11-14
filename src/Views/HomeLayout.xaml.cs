@@ -18,7 +18,7 @@ namespace COMPASS.Views
     public void HandleDoubleClick(object sender, MouseButtonEventArgs e)
     {
       Codex toOpen = ((ListBoxItem)sender).DataContext as Codex;
-      CodexViewModel.OpenCodex(toOpen);
+      _ = CodexViewModel.OpenCodex(toOpen);
     }
   }
 }

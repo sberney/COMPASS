@@ -29,7 +29,7 @@ namespace COMPASS
     //Deselects when you click away
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      MainGrid.Focus();
+      _ = MainGrid.Focus();
     }
 
     //removes tag from filter list when clicked
@@ -38,8 +38,14 @@ namespace COMPASS
       if ((Tag)CurrentTagList.SelectedItem != null)
       {
         Tag t = (Tag)CurrentTagList.SelectedItem;
-        if (!t.GetType().IsSubclassOf(typeof(Tag))) MainViewModel.CollectionVM.RemoveTagFilter(t);
-        else MainViewModel.CollectionVM.RemoveFieldFilter((FilterTag)t);
+        if (!t.GetType().IsSubclassOf(typeof(Tag)))
+        {
+          MainViewModel.CollectionVM.RemoveTagFilter(t);
+        }
+        else
+        {
+          MainViewModel.CollectionVM.RemoveFieldFilter((FilterTag)t);
+        }
       }
     }
 
@@ -75,7 +81,7 @@ namespace COMPASS
           {
             cbSize = Marshal.SizeOf(typeof(MONITORINFO))
           };
-          GetMonitorInfo(monitor, ref monitorInfo);
+          _ = GetMonitorInfo(monitor, ref monitorInfo);
           RECT rcWorkArea = monitorInfo.rcWork;
           RECT rcMonitorArea = monitorInfo.rcMonitor;
           mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
@@ -111,10 +117,10 @@ namespace COMPASS
 
       public RECT(int left, int top, int right, int bottom)
       {
-        this.Left = left;
-        this.Top = top;
-        this.Right = right;
-        this.Bottom = bottom;
+        Left = left;
+        Top = top;
+        Right = right;
+        Bottom = bottom;
       }
     }
 
@@ -136,8 +142,8 @@ namespace COMPASS
 
       public POINT(int x, int y)
       {
-        this.X = x;
-        this.Y = y;
+        X = x;
+        Y = y;
       }
     }
 
@@ -159,10 +165,10 @@ namespace COMPASS
     {
       switch (WindowState)
       {
-        case (WindowState.Maximized):
+        case WindowState.Maximized:
           WindowState = WindowState.Normal;
           break;
-        case (WindowState.Normal):
+        case WindowState.Normal:
           WindowState = WindowState.Maximized;
           break;
       }
@@ -177,7 +183,7 @@ namespace COMPASS
 
     private void Toggle_ContextMenu(object sender, RoutedEventArgs e)
     {
-      (sender as Button).ContextMenu.PlacementTarget = (sender as Button);
+      (sender as Button).ContextMenu.PlacementTarget = sender as Button;
       (sender as Button).ContextMenu.IsOpen = !(sender as Button).ContextMenu.IsOpen;
     }
   }

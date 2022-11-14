@@ -13,7 +13,7 @@ namespace COMPASS
     {
       DataContext = vm;
       InitializeComponent();
-      ((TagEditViewModel)DataContext).CloseAction = new Action(this.Close);
+      ((TagEditViewModel)DataContext).CloseAction = new Action(Close);
     }
   }
 }

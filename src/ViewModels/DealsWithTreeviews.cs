@@ -21,16 +21,16 @@ namespace COMPASS.ViewModels
     private ObservableCollection<TreeViewNode> _treeviewsource;
     public ObservableCollection<TreeViewNode> TreeViewSource
     {
-      get { return _treeviewsource; }
-      set { SetProperty(ref _treeviewsource, value); }
+      get => _treeviewsource;
+      set => SetProperty(ref _treeviewsource, value);
     }
 
     //AllTreeViewNodes without hierarchy for iterating purposes
     private HashSet<TreeViewNode> _alltreeViewNodes;
     public HashSet<TreeViewNode> AllTreeViewNodes
     {
-      get { return _alltreeViewNodes; }
-      set { SetProperty(ref _alltreeViewNodes, value); }
+      get => _alltreeViewNodes;
+      set => SetProperty(ref _alltreeViewNodes, value);
     }
 
     public ObservableCollection<TreeViewNode> CreateTreeViewSource(List<Tag> rootTags)
@@ -46,7 +46,7 @@ namespace COMPASS.ViewModels
 
     public List<Tag> ExtractTagsFromTreeViewSource(ObservableCollection<TreeViewNode> treeViewSource)
     {
-      var newRootTags = new List<Tag>();
+      List<Tag> newRootTags = new();
       foreach (TreeViewNode n in treeViewSource)
       {
         newRootTags.Add(ConvertTreeViewNodeToTag(n));
@@ -60,7 +60,11 @@ namespace COMPASS.ViewModels
     private TreeViewNode ConvertTagToTreeViewNode(Tag t)
     {
       TreeViewNode Result = new(t);
-      foreach (Tag t2 in t.Children) Result.Children.Add(ConvertTagToTreeViewNode(t2));
+      foreach (Tag t2 in t.Children)
+      {
+        Result.Children.Add(ConvertTagToTreeViewNode(t2));
+      }
+
       return Result;
     }
 

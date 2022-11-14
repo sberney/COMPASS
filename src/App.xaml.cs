@@ -11,7 +11,7 @@ namespace COMPASS
   {
     public App()
     {
-      Directory.CreateDirectory(Constants.CompassDataPath);
+      _ = Directory.CreateDirectory(Constants.CompassDataPath);
     }
   }
 }

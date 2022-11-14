@@ -60,7 +60,7 @@ namespace COMPASS.ViewModels
     }
 
     #region Properties
-    private CodexCollection _codexCollection;
+    private readonly CodexCollection _codexCollection;
 
     public Sources Source { get; init; }
     private BackgroundWorker worker;
@@ -72,8 +72,8 @@ namespace COMPASS.ViewModels
     private float _progressPercentage;
     public float ProgressPercentage
     {
-      get { return _progressPercentage; }
-      set { SetProperty(ref _progressPercentage, value); }
+      get => _progressPercentage;
+      set => SetProperty(ref _progressPercentage, value);
     }
 
     private readonly string _importText = "Import in Progress: {0} {1} / {2}";
@@ -81,44 +81,41 @@ namespace COMPASS.ViewModels
     private int _importamount;
     private string _importtype = "";
 
-    public string ProgressText
-    {
-      get { return string.Format(_importText, _importtype, _importcounter + 1, _importamount); }
-    }
+    public string ProgressText => string.Format(_importText, _importtype, _importcounter + 1, _importamount);
 
     private string _previewURL;
     public string PreviewURL
     {
-      get { return _previewURL; }
-      set { SetProperty(ref _previewURL, value); }
+      get => _previewURL;
+      set => SetProperty(ref _previewURL, value);
     }
 
     private string _inputURL = "";
     public string InputURL
     {
-      get { return _inputURL; }
-      set { SetProperty(ref _inputURL, value); }
+      get => _inputURL;
+      set => SetProperty(ref _inputURL, value);
     }
 
     private string _importTitle;
     public string ImportTitle
     {
-      get { return _importTitle; }
-      set { SetProperty(ref _importTitle, value); }
+      get => _importTitle;
+      set => SetProperty(ref _importTitle, value);
     }
 
     private string _importError = "";
     public string ImportError
     {
-      get { return _importError; }
-      set { SetProperty(ref _importError, value); }
+      get => _importError;
+      set => SetProperty(ref _importError, value);
     }
 
     private ObservableCollection<LogEntry> _log = new();
     public ObservableCollection<LogEntry> Log
     {
-      get { return _log; }
-      set { SetProperty(ref _log, value); }
+      get => _log;
+      set => SetProperty(ref _log, value);
     }
 
     #endregion
@@ -177,7 +174,7 @@ namespace COMPASS.ViewModels
             {
               case ".pdf":
                 PdfDocument pdfdoc = new(new PdfReader(path));
-                var info = pdfdoc.GetDocumentInfo();
+                PdfDocumentInfo info = pdfdoc.GetDocumentInfo();
                 newCodex.Title = info.GetTitle() ?? System.IO.Path.GetFileNameWithoutExtension(path);
                 newCodex.Authors = new() { info.GetAuthor() };
                 newCodex.PageCount = pdfdoc.GetNumberOfPages();
@@ -189,7 +186,7 @@ namespace COMPASS.ViewModels
                 break;
             }
 
-            CoverFetcher.GetCoverFromFile(newCodex);
+            _ = CoverFetcher.GetCoverFromFile(newCodex);
             _codexCollection.AllCodices.Add(newCodex);
             SelectWhenDone = newCodex;
 
@@ -211,13 +208,16 @@ namespace COMPASS.ViewModels
       {
         MVM.Refresh();
       });
-      if (SelectWhenDone != null) MVM.CurrentLayout.SelectedFile = SelectWhenDone;
+      if (SelectWhenDone != null)
+      {
+        MVM.CurrentLayout.SelectedFile = SelectWhenDone;
+      }
     }
 
     private void ImportManual()
     {
       FilePropWindow fpw = new(new CodexEditViewModel(null));
-      fpw.ShowDialog();
+      _ = fpw.ShowDialog();
       fpw.Topmost = true;
     }
 
@@ -257,18 +257,26 @@ namespace COMPASS.ViewModels
     {
       if (!InputURL.Contains(PreviewURL))
       {
-        ImportError = String.Format("{0} is not a valid URL for {1}", InputURL, ImportTitle);
+        ImportError = string.Format("{0} is not a valid URL for {1}", InputURL, ImportTitle);
         return;
       }
       if (!Utils.PingURL())
       {
-        ImportError = String.Format("You need to be connected to the internet to import on online source.");
+        ImportError = string.Format("You need to be connected to the internet to import on online source.");
         return;
       }
       iURLw.Close();
       worker = new BackgroundWorker { WorkerReportsProgress = true };
-      if (Webscrape.HasFlag(Source)) worker.DoWork += ImportURL;
-      if (APIAccess.HasFlag(Source)) worker.DoWork += ImportFromAPI;
+      if (Webscrape.HasFlag(Source))
+      {
+        worker.DoWork += ImportURL;
+      }
+
+      if (APIAccess.HasFlag(Source))
+      {
+        worker.DoWork += ImportFromAPI;
+      }
+
       worker.ProgressChanged += ProgressChanged;
       worker.RunWorkerAsync();
     }
@@ -277,7 +285,7 @@ namespace COMPASS.ViewModels
     public ActionCommand OpenBarcodeScannerCommand => _OpenBarcodeScannerCommand ??= new(OpenBarcodeScanner);
     public void OpenBarcodeScanner()
     {
-      var bcScanWindow = new BarcodeScanWindow();
+      BarcodeScanWindow bcScanWindow = new();
       if (bcScanWindow.ShowDialog() == true)
       {
         InputURL = bcScanWindow.DecodedString;
@@ -299,7 +307,7 @@ namespace COMPASS.ViewModels
         pgw.Show();
       });
 
-      worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Info, String.Format("Connecting to {0}", ImportTitle)));
+      worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Info, string.Format("Connecting to {0}", ImportTitle)));
 
       //Webscraper for metadata using HtmlAgilityPack
       HtmlWeb web = new();
@@ -313,7 +321,7 @@ namespace COMPASS.ViewModels
 
       if (doc.ParsedText == null)
       {
-        worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Error, String.Format("{0} could not be reached", ImportTitle)));
+        worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Error, string.Format("{0} could not be reached", ImportTitle)));
         return;
       }
 
@@ -342,7 +350,7 @@ namespace COMPASS.ViewModels
 
           //Scrape metadata
           newFile.Title = src.SelectSingleNode("//html/head/title").InnerText.Split('|')[0];
-          newFile.Authors = new() { src.SelectSingleNode("//meta[@property='og:author']").GetAttributeValue("content", String.Empty) };
+          newFile.Authors = new() { src.SelectSingleNode("//meta[@property='og:author']").GetAttributeValue("content", string.Empty) };
 
           //get pagecount
           HtmlNode previewDiv = doc.GetElementbyId("preview");
@@ -395,7 +403,7 @@ namespace COMPASS.ViewModels
       worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Info, "Metadata loaded. Fetching cover art."));
 
       //Get Cover Art
-      CoverFetcher.GetCoverFromURL(newFile, Source);
+      _ = CoverFetcher.GetCoverFromURL(newFile, Source);
 
       //add file to cc
       _codexCollection.AllCodices.Add(newFile);
@@ -426,7 +434,7 @@ namespace COMPASS.ViewModels
         pgw.Show();
       });
 
-      worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Info, String.Format("Fetching Data")));
+      worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Info, string.Format("Fetching Data")));
       string uri = Source switch
       {
         Sources.ISBN => $"http://openlibrary.org/api/books?bibkeys=ISBN:{InputURL.Trim('-', ' ')}&format=json&jscmd=details",
@@ -454,20 +462,26 @@ namespace COMPASS.ViewModels
       switch (Source)
       {
         case Sources.ISBN:
-          var details = metadata.First.First.SelectToken("details");
+          JToken details = metadata.First.First.SelectToken("details");
           newFile.Title = (string)details.SelectToken("title");
           if (details.SelectToken("authors") != null)
+          {
             newFile.Authors = new ObservableCollection<string>(details.SelectToken("authors").Select(item => item.SelectToken("name").ToString()));
+          }
+
           if (details.SelectToken("pagination") != null)
           {
-            newFile.PageCount = Int32.Parse(Regex.Match(details.SelectToken("pagination").ToString(), @"\d+").Value);
+            newFile.PageCount = int.Parse(Regex.Match(details.SelectToken("pagination").ToString(), @"\d+").Value);
           }
           newFile.PageCount = (int?)details.SelectToken("number_of_pages") ?? newFile.PageCount;
           newFile.Publisher = (string)details.SelectToken("publishers[0]") ?? newFile.Publisher;
           newFile.Description = (string)details.SelectToken("description.value") ?? newFile.Description;
           DateTime tempDate;
           if (DateTime.TryParse((string)details.SelectToken("publish_date"), out tempDate))
+          {
             newFile.ReleaseDate = tempDate;
+          }
+
           newFile.ISBN = InputURL;
           newFile.Physically_Owned = true;
           break;
@@ -478,7 +492,7 @@ namespace COMPASS.ViewModels
       worker.ReportProgress(_importcounter, new LogEntry(LogEntry.MsgType.Info, "Metadata loaded. Fetching cover art."));
 
       //Get Cover Art
-      CoverFetcher.GetCoverFromISBN(newFile);
+      _ = CoverFetcher.GetCoverFromISBN(newFile);
 
       //add file to cc
       _codexCollection.AllCodices.Add(newFile);
@@ -501,7 +515,10 @@ namespace COMPASS.ViewModels
       //update text
       RaisePropertyChanged(nameof(ProgressText));
       //write log entry if any
-      if (e.UserState is LogEntry logEntry) Log.Add(logEntry);
+      if (e.UserState is LogEntry logEntry)
+      {
+        Log.Add(logEntry);
+      }
     }
     #endregion
 

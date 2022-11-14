@@ -11,17 +11,8 @@ namespace COMPASS.Tools.Converters
     {
       //Parameter is true if inverted
       bool Invert = System.Convert.ToBoolean(parameter);
-      bool visible;
-
-      if (value.GetType() == typeof(string))
-        visible = !string.IsNullOrEmpty((string)value);
-      else
-        visible = System.Convert.ToBoolean(value);
-
-      if (visible ^ Invert)
-        return Visibility.Visible;
-      else
-        return Visibility.Collapsed;
+      bool visible = value.GetType() == typeof(string) ? !string.IsNullOrEmpty((string)value) : System.Convert.ToBoolean(value);
+      return visible ^ Invert ? Visibility.Visible : (object)Visibility.Collapsed;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

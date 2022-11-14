@@ -6,7 +6,7 @@ namespace COMPASS.ViewModels.Commands
   //Command without parameters
   public class ActionCommand : ICommand
   {
-    readonly Action _execute;
+    private readonly Action _execute;
 
     public event EventHandler CanExecuteChanged;
 

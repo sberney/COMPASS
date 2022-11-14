@@ -16,27 +16,24 @@ namespace COMPASS.ViewModels
     private double _width = Properties.Settings.Default.HomeCoverSize;
     public double TileWidth
     {
-      get { return _width; }
+      get => _width;
       set
       {
-        SetProperty(ref _width, value);
+        _ = SetProperty(ref _width, value);
         RaisePropertyChanged(nameof(TileHeight));
         Properties.Settings.Default.HomeCoverSize = value;
       }
     }
 
-    public double TileHeight
-    {
-      get { return (int)(_width * 4 / 3); }
-    }
+    public double TileHeight => (int)(_width * 4 / 3);
 
     private bool _showtitle = Properties.Settings.Default.HomeShowTitle;
     public bool ShowTitle
     {
-      get { return _showtitle; }
+      get => _showtitle;
       set
       {
-        SetProperty(ref _showtitle, value);
+        _ = SetProperty(ref _showtitle, value);
         Properties.Settings.Default.HomeShowTitle = value;
       }
     }

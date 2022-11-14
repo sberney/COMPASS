@@ -18,7 +18,7 @@ namespace COMPASS.Windows
       InitializeComponent();
 
       //jump to tab
-      var TabItems = SettingsTabControl.Items;
+      ItemCollection TabItems = SettingsTabControl.Items;
       foreach (TabItem item in TabItems)
       {
         if ((string)item.Header == tab)
@@ -29,11 +29,11 @@ namespace COMPASS.Windows
       }
     }
 
-    private SettingsViewModel VM;
+    private readonly SettingsViewModel VM;
 
     private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      MainGrid.Focus();
+      _ = MainGrid.Focus();
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -43,7 +43,7 @@ namespace COMPASS.Windows
 
     private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {
-      Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+      _ = Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
       e.Handled = true;
     }
   }

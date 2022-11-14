@@ -16,14 +16,14 @@ namespace COMPASS
     {
       DataContext = vm;
       InitializeComponent();
-      ((CodexEditViewModel)DataContext).CloseAction = new Action(this.Close);
+      ((CodexEditViewModel)DataContext).CloseAction = new Action(Close);
 
-      AuthorsComboBox.ApplyTemplate();
+      _ = AuthorsComboBox.ApplyTemplate();
     }
 
     private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      MainGrid.Focus();
+      _ = MainGrid.Focus();
     }
   }
 }

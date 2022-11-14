@@ -6,11 +6,11 @@ using System.Windows.Media;
 
 namespace COMPASS.Tools.Converters
 {
-  class MsgTypetoColorConverter : IValueConverter
+  internal class MsgTypetoColorConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      var msgtype = (LogEntry.MsgType)value;
+      LogEntry.MsgType msgtype = (LogEntry.MsgType)value;
       return msgtype switch
       {
         LogEntry.MsgType.Info => new SolidColorBrush(Colors.LightGray),

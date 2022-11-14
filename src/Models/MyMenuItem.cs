@@ -20,18 +20,18 @@ namespace COMPASS.Models
     private string _header;
     public string Header
     {
-      get { return _header; }
-      set { SetProperty(ref _header, value); }
+      get => _header;
+      set => SetProperty(ref _header, value);
     }
 
     //Property it changes, such as bools for toggeling options, floats for sliders, ect.
     private object _prop;
     public object Prop
     {
-      get { return _prop; }
+      get => _prop;
       set
       {
-        SetProperty(ref _prop, value);
+        _ = SetProperty(ref _prop, value);
         _updateProp?.Invoke(value);
       }
     }
@@ -40,22 +40,22 @@ namespace COMPASS.Models
     private ICommand _command;
     public ICommand Command
     {
-      get { return _command; }
-      set { SetProperty(ref _command, value); }
+      get => _command;
+      set => SetProperty(ref _command, value);
     }
 
     private object _commandParam;
     public object CommandParam
     {
-      get { return _commandParam; }
-      set { SetProperty(ref _commandParam, value); }
+      get => _commandParam;
+      set => SetProperty(ref _commandParam, value);
     }
 
     private ObservableCollection<MyMenuItem> _submenus;
     public ObservableCollection<MyMenuItem> Submenus
     {
-      get { return _submenus; }
-      set { SetProperty(ref _submenus, value); }
+      get => _submenus;
+      set => SetProperty(ref _submenus, value);
     }
     #endregion
   }

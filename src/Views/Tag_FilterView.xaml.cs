@@ -19,8 +19,16 @@ namespace COMPASS.Views
     public void TagTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
       TreeViewNode selectednode = (TreeViewNode)e.NewValue;
-      if (selectednode == null) return;
-      if (selectednode.Tag.IsGroup) return;
+      if (selectednode == null)
+      {
+        return;
+      }
+
+      if (selectednode.Tag.IsGroup)
+      {
+        return;
+      }
+
       ViewModelBase.MVM.CollectionVM.AddTagFilter(selectednode.Tag);
       selectednode.Selected = false;
     }
@@ -31,15 +39,17 @@ namespace COMPASS.Views
 
       if (treeViewItem != null)
       {
-        ((TagsFiltersViewModel)DataContext).TagsTabVM.Context = ((TreeViewNode)treeViewItem.Header).Tag as Tag;
+        ((TagsFiltersViewModel)DataContext).TagsTabVM.Context = ((TreeViewNode)treeViewItem.Header).Tag;
         e.Handled = true;
       }
     }
 
-    static TreeViewItem VisualUpwardSearch(DependencyObject source)
+    private static TreeViewItem VisualUpwardSearch(DependencyObject source)
     {
-      while (source != null && source is not TreeViewItem)
+      while (source is not null and not TreeViewItem)
+      {
         source = VisualTreeHelper.GetParent(source);
+      }
 
       return source as TreeViewItem;
     }

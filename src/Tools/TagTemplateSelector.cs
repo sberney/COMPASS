@@ -10,14 +10,9 @@ namespace COMPASS.Tools
     {
       FrameworkElement elemnt = container as FrameworkElement;
       TreeViewNode node = item as TreeViewNode;
-      if (node.Tag.IsGroup)
-      {
-        return elemnt.FindResource("GroupTag") as HierarchicalDataTemplate;
-      }
-      else
-      {
-        return elemnt.FindResource("RegularTag") as HierarchicalDataTemplate;
-      }
+      return node.Tag.IsGroup
+    ? elemnt.FindResource("GroupTag") as HierarchicalDataTemplate
+    : (DataTemplate)(elemnt.FindResource("RegularTag") as HierarchicalDataTemplate);
     }
   }
 }

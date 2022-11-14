@@ -1,5 +1,4 @@
 ﻿using COMPASS.Models;
-using COMPASS.Tools;
 using HtmlAgilityPack;
 using ImageMagick;
 using Newtonsoft.Json.Linq;
@@ -15,14 +14,18 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace COMPASS
+namespace COMPASS.Tools
 {
   public static class CoverFetcher
   {
     public static bool GetCover(Codex c)
     {
       bool success = Utils.TryFunctions(GetCoverFunctions, c);
-      if (!success) MessageBox.Show("Could not get Cover, please check local path or URL");
+      if (!success)
+      {
+        _ = MessageBox.Show("Could not get Cover, please check local path or URL");
+      }
+
       return success;
     }
 
@@ -38,13 +41,16 @@ namespace COMPASS
     public static bool GetCoverFromFile(Codex codex)
     {
       //return false if file doesn't exist
-      if (String.IsNullOrEmpty(codex.Path) || !File.Exists(codex.Path)) return false;
+      if (string.IsNullOrEmpty(codex.Path) || !File.Exists(codex.Path))
+      {
+        return false;
+      }
 
-      string FileType = System.IO.Path.GetExtension(codex.Path);
+      string FileType = Path.GetExtension(codex.Path);
       switch (FileType)
       {
         case ".pdf":
-          var pdfReadDefines = new ImageMagick.Formats.PdfReadDefines()
+          ImageMagick.Formats.PdfReadDefines pdfReadDefines = new()
           {
             HideAnnotations = true,
           };
@@ -77,7 +83,7 @@ namespace COMPASS
           {
             Logger.log.Error(ex.InnerException);
             string messageBoxText = "Failed to extract Cover from pdf.";
-            MessageBox.Show(messageBoxText, "Failed to extract Cover from pdf", MessageBoxButton.OK, MessageBoxImage.Warning);
+            _ = MessageBox.Show(messageBoxText, "Failed to extract Cover from pdf", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
           }
         case ".jpg":
@@ -98,18 +104,33 @@ namespace COMPASS
     {
       string URL = c.SourceURL;
       Enums.Sources source;
-      if (String.IsNullOrEmpty(URL)) return false;
+      if (string.IsNullOrEmpty(URL))
+      {
+        return false;
+      }
 
-      if (URL.Contains("dndbeyond.com")) source = Enums.Sources.DnDBeyond;
-      else if (URL.Contains("gmbinder.com")) source = Enums.Sources.GmBinder;
-      else if (URL.Contains("homebrewery.naturalcrit.com")) source = Enums.Sources.Homebrewery;
-      else if (URL.Contains("drive.google.com")) source = Enums.Sources.GoogleDrive;
+      if (URL.Contains("dndbeyond.com"))
+      {
+        source = Enums.Sources.DnDBeyond;
+      }
+      else if (URL.Contains("gmbinder.com"))
+      {
+        source = Enums.Sources.GmBinder;
+      }
+      else if (URL.Contains("homebrewery.naturalcrit.com"))
+      {
+        source = Enums.Sources.Homebrewery;
+      }
+      else if (URL.Contains("drive.google.com"))
+      {
+        source = Enums.Sources.GoogleDrive;
+      }
       //if none of above, unsupported site
       else
       {
         Uri tempUri = new(URL);
         string message = tempUri.Host + " is not a supported source at the moment.";
-        MessageBox.Show(message, "Cover could not be found.", MessageBoxButton.OK, MessageBoxImage.Warning);
+        _ = MessageBox.Show(message, "Cover could not be found.", MessageBoxButton.OK, MessageBoxImage.Warning);
         return false;
       }
 
@@ -137,16 +158,20 @@ namespace COMPASS
               doc = web.Load(string.Concat(URL, "/credits"));
               src = doc.DocumentNode;
 
-              imgURL = src.SelectSingleNode("//img[@class='product-hero-avatar__image']").GetAttributeValue("content", String.Empty);
+              imgURL = src.SelectSingleNode("//img[@class='product-hero-avatar__image']").GetAttributeValue("content", string.Empty);
               break;
 
             case Enums.Sources.GoogleDrive:
               doc = web.Load(URL);
               src = doc.DocumentNode;
 
-              imgURL = src.SelectSingleNode("//meta[@property='og:image']").GetAttributeValue("content", String.Empty);
+              imgURL = src.SelectSingleNode("//meta[@property='og:image']").GetAttributeValue("content", string.Empty);
               //cut of "=W***-h***-p" from URL that crops the image if it is present
-              if (imgURL.Contains('=')) imgURL = imgURL.Split('=')[0];
+              if (imgURL.Contains('='))
+              {
+                imgURL = imgURL.Split('=')[0];
+              }
+
               break;
             case Enums.Sources.ISBN:
               string uri = $"https://openlibrary.org/isbn/{destfile.ISBN}.json";
@@ -156,7 +181,7 @@ namespace COMPASS
               break;
           }
           //download the file
-          var imgBytes = Task.Run(async () => await Utils.DownloadFileAsync(imgURL)).Result;
+          byte[] imgBytes = Task.Run(async () => await Utils.DownloadFileAsync(imgURL)).Result;
           File.WriteAllBytes(destfile.CoverArt, imgBytes);
         }
         catch (Exception ex)
@@ -169,7 +194,7 @@ namespace COMPASS
       //sites do not store cover as img, Use Selenium for screenshotting pages
       else if (source.HasFlag(Enums.Sources.GmBinder) || source.HasFlag(Enums.Sources.Homebrewery))
       {
-        var browser = (Enums.Browser)Properties.Settings.Default.SeleniumBrowser;
+        Enums.Browser browser = (Enums.Browser)Properties.Settings.Default.SeleniumBrowser;
 
         string driverPath = browser switch
         {
@@ -233,13 +258,13 @@ namespace COMPASS
 
             case Enums.Sources.Homebrewery:
               //get nav height because scraper doesn't see nav anymore after it switched to frame
-              var nav = driver.FindElement(By.XPath("//nav"));
+              IWebElement nav = driver.FindElement(By.XPath("//nav"));
               string navhstr = nav.GetCssValue("height");
               float navheight = float.Parse(navhstr[..(navhstr.Length - 2)], CultureInfo.InvariantCulture);
 
               //switch to iframe
-              var iframe = driver.FindElement(By.XPath("//iframe"));
-              driver.SwitchTo().Frame(iframe);
+              IWebElement iframe = driver.FindElement(By.XPath("//iframe"));
+              _ = driver.SwitchTo().Frame(iframe);
               Coverpage = driver.FindElement(By.Id("p1"));
               //shift page down by nav height because element location is relative to frame, but coords on screenshot is reletaive to page 
               int newY = (int)Math.Round(Coverpage.Location.Y + navheight, 0);
@@ -249,7 +274,11 @@ namespace COMPASS
               break;
           }
 
-          if (image.Width > 850) image.Resize(850, 0);
+          if (image.Width > 850)
+          {
+            image.Resize(850, 0);
+          }
+
           image.Write(destfile.CoverArt);
         }
         catch (Exception ex)
@@ -269,15 +298,18 @@ namespace COMPASS
 
     public static bool GetCoverFromISBN(Codex c)
     {
-      if (string.IsNullOrEmpty(c.ISBN)) return false;
-      return GetCoverFromURL(c, Enums.Sources.ISBN);
+      return !string.IsNullOrEmpty(c.ISBN) && GetCoverFromURL(c, Enums.Sources.ISBN);
     }
 
     //get cover from image
     public static void GetCoverFromImage(string imagepath, Codex destfile)
     {
       using MagickImage image = new(imagepath);
-      if (image.Width > 1000) image.Resize(1000, 0);
+      if (image.Width > 1000)
+      {
+        image.Resize(1000, 0);
+      }
+
       image.Write(destfile.CoverArt);
       CreateThumbnail(destfile);
     }
@@ -301,10 +333,10 @@ namespace COMPASS
     {
       //take the screenshot
       Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
-      var img = Image.FromStream(new MemoryStream(ss.AsByteArray)) as Bitmap;
+      Bitmap img = Image.FromStream(new MemoryStream(ss.AsByteArray)) as Bitmap;
 
-      var imgcropped = img.Clone(new Rectangle(location, size), img.PixelFormat);
-      var mf = new MagickFactory();
+      Bitmap imgcropped = img.Clone(new Rectangle(location, size), img.PixelFormat);
+      MagickFactory mf = new();
       MagickImage Magickimg = new(mf.Image.Create(imgcropped));
       return Magickimg;
     }

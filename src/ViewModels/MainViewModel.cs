@@ -64,7 +64,7 @@ namespace COMPASS.ViewModels
     //Get a collection at startup
     private void InitCollection()
     {
-      Directory.CreateDirectory(CodexCollection.CollectionsPath);
+      _ = Directory.CreateDirectory(CodexCollection.CollectionsPath);
 
       //Get all RPG systems by folder name
       CollectionDirectories = new ObservableCollection<string>();
@@ -83,7 +83,7 @@ namespace COMPASS.ViewModels
       //in case startup collection no longer exists
       else if (!Directory.Exists(CodexCollection.CollectionsPath + Properties.Settings.Default.StartupCollection))
       {
-        MessageBox.Show("The collection " + Properties.Settings.Default.StartupCollection + " could not be found. ");
+        _ = MessageBox.Show("The collection " + Properties.Settings.Default.StartupCollection + " could not be found. ");
         //pick first one that does exists
         foreach (string dir in CollectionDirectories)
         {
@@ -105,7 +105,7 @@ namespace COMPASS.ViewModels
     //Get latest version of relevant Webdriver for selenium
     private void InitWebdriver()
     {
-      Directory.CreateDirectory(Constants.WebDriverDirectoryPath);
+      _ = Directory.CreateDirectory(Constants.WebDriverDirectoryPath);
       DriverManager DM = new(Constants.WebDriverDirectoryPath);
 
       if (Utils.IsInstalled("chrome.exe"))
@@ -113,7 +113,7 @@ namespace COMPASS.ViewModels
         Properties.Settings.Default.SeleniumBrowser = (int)Browser.Chrome;
         try
         {
-          DM.SetUpDriver(new ChromeConfig(), WebDriverManager.Helpers.VersionResolveStrategy.MatchingBrowser);
+          _ = DM.SetUpDriver(new ChromeConfig(), WebDriverManager.Helpers.VersionResolveStrategy.MatchingBrowser);
         }
         catch (Exception ex)
         {
@@ -126,7 +126,7 @@ namespace COMPASS.ViewModels
         Properties.Settings.Default.SeleniumBrowser = (int)Browser.Firefox;
         try
         {
-          DM.SetUpDriver(new FirefoxConfig());
+          _ = DM.SetUpDriver(new FirefoxConfig());
         }
         catch (Exception ex)
         {
@@ -139,7 +139,7 @@ namespace COMPASS.ViewModels
         Properties.Settings.Default.SeleniumBrowser = (int)Browser.Edge;
         try
         {
-          DM.SetUpDriver(new EdgeConfig(), WebDriverManager.Helpers.VersionResolveStrategy.MatchingBrowser);
+          _ = DM.SetUpDriver(new EdgeConfig(), WebDriverManager.Helpers.VersionResolveStrategy.MatchingBrowser);
         }
         catch (Exception ex)
         {
@@ -197,14 +197,14 @@ namespace COMPASS.ViewModels
     private ObservableCollection<string> _collectionDirectories;
     public ObservableCollection<string> CollectionDirectories
     {
-      get { return _collectionDirectories; }
-      set { SetProperty(ref _collectionDirectories, value); }
+      get => _collectionDirectories;
+      set => SetProperty(ref _collectionDirectories, value);
     }
 
     private string _currentCollectionName;
     public string CurrentCollectionName
     {
-      get { return _currentCollectionName; }
+      get => _currentCollectionName;
       set
       {
         if (CurrentCollection != null)
@@ -212,8 +212,12 @@ namespace COMPASS.ViewModels
           CurrentCollection.SaveCodices();
           CurrentCollection.SaveTags();
         }
-        if (value != null) ChangeCollection(value);
-        SetProperty(ref _currentCollectionName, value);
+        if (value != null)
+        {
+          ChangeCollection(value);
+        }
+
+        _ = SetProperty(ref _currentCollectionName, value);
       }
     }
 
@@ -221,15 +225,15 @@ namespace COMPASS.ViewModels
     private CodexCollection _currentCollection;
     public CodexCollection CurrentCollection
     {
-      get { return _currentCollection; }
-      private set { SetProperty(ref _currentCollection, value); }
+      get => _currentCollection;
+      private set => SetProperty(ref _currentCollection, value);
     }
 
     private bool isOnline;
     public bool IsOnline
     {
-      get { return isOnline; }
-      private set { SetProperty(ref isOnline, value); }
+      get => isOnline;
+      private set => SetProperty(ref isOnline, value);
     }
 
     #endregion
@@ -240,46 +244,46 @@ namespace COMPASS.ViewModels
     private SettingsViewModel _settingsVM;
     public SettingsViewModel SettingsVM
     {
-      get { return _settingsVM; }
-      set { SetProperty(ref _settingsVM, value); }
+      get => _settingsVM;
+      set => SetProperty(ref _settingsVM, value);
     }
 
     private CollectionViewModel _collectionVM;
     public CollectionViewModel CollectionVM
     {
-      get { return _collectionVM; }
-      private set { SetProperty(ref _collectionVM, value); }
+      get => _collectionVM;
+      private set => SetProperty(ref _collectionVM, value);
     }
 
     private LayoutViewModel _currentLayout;
     public LayoutViewModel CurrentLayout
     {
-      get { return _currentLayout; }
-      set { SetProperty(ref _currentLayout, value); }
+      get => _currentLayout;
+      set => SetProperty(ref _currentLayout, value);
     }
 
     //Tag Creation ViewModel
     private IEditViewModel _addTagViewModel;
     public IEditViewModel AddTagViewModel
     {
-      get { return _addTagViewModel; }
-      set { SetProperty(ref _addTagViewModel, value); }
+      get => _addTagViewModel;
+      set => SetProperty(ref _addTagViewModel, value);
     }
 
     //Tags and Filters Tabs ViewModel (Left Dock)
     private TagsFiltersViewModel _tfViewModel;
     public TagsFiltersViewModel TFViewModel
     {
-      get { return _tfViewModel; }
-      set { SetProperty(ref _tfViewModel, value); }
+      get => _tfViewModel;
+      set => SetProperty(ref _tfViewModel, value);
     }
 
     //Import ViewModel
     private ImportViewModel _currentImportVM;
     public ImportViewModel CurrentImportViewModel
     {
-      get { return _currentImportVM; }
-      set { SetProperty(ref _currentImportVM, value); }
+      get => _currentImportVM;
+      set => SetProperty(ref _currentImportVM, value);
     }
 
     #endregion
@@ -290,7 +294,7 @@ namespace COMPASS.ViewModels
 
     public void OpenSettings(string tab = null)
     {
-      var settingswindow = new SettingsWindow(SettingsVM, tab);
+      SettingsWindow settingswindow = new(SettingsVM, tab);
       settingswindow.Show();
     }
 
@@ -352,10 +356,13 @@ namespace COMPASS.ViewModels
     public RelayCommand<string> CreateCollectionCommand { get; private set; }
     public void CreateCollection(string dirName)
     {
-      if (string.IsNullOrEmpty(dirName)) return;
+      if (string.IsNullOrEmpty(dirName))
+      {
+        return;
+      }
 
-      Directory.CreateDirectory((CodexCollection.CollectionsPath + dirName + @"\CoverArt"));
-      Directory.CreateDirectory((CodexCollection.CollectionsPath + dirName + @"\Thumbnails"));
+      _ = Directory.CreateDirectory(CodexCollection.CollectionsPath + dirName + @"\CoverArt");
+      _ = Directory.CreateDirectory(CodexCollection.CollectionsPath + dirName + @"\Thumbnails");
       CollectionDirectories.Add(dirName);
       CurrentCollectionName = dirName;
     }
@@ -364,7 +371,7 @@ namespace COMPASS.ViewModels
     public RelayCommand<string> EditCollectionNameCommand { get; private set; }
     public void EditCollectionName(string newName)
     {
-      var index = CollectionDirectories.IndexOf(CurrentCollectionName);
+      int index = CollectionDirectories.IndexOf(CurrentCollectionName);
       CurrentCollection.RenameCollection(newName);
       CollectionDirectories[index] = newName;
       CurrentCollectionName = newName;
@@ -402,9 +409,12 @@ namespace COMPASS.ViewModels
     public void DeleteCollection(string todelete)
     {
       //if todelete is empty, it will delete the entire collections folder
-      if (String.IsNullOrEmpty(todelete)) return;
+      if (string.IsNullOrEmpty(todelete))
+      {
+        return;
+      }
 
-      CollectionDirectories.Remove(todelete);
+      _ = CollectionDirectories.Remove(todelete);
       CurrentCollectionName = CollectionDirectories[0];
       Directory.Delete(CodexCollection.CollectionsPath + todelete, true);
     }

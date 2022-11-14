@@ -25,36 +25,36 @@ namespace COMPASS.Models
     private ObservableCollection<Tag> _childeren = new();
     public ObservableCollection<Tag> Children
     {
-      get { return _childeren; }
-      set { SetProperty(ref _childeren, value); }
+      get => _childeren;
+      set => SetProperty(ref _childeren, value);
     }
 
     private string _content = "";
     public string Content
     {
-      get { return _content; }
-      set { SetProperty(ref _content, value); }
+      get => _content;
+      set => SetProperty(ref _content, value);
     }
 
     private int _parentID = -1;
     public int ParentID
     {
-      get { return _parentID; }
-      set { SetProperty(ref _parentID, value); }
+      get => _parentID;
+      set => SetProperty(ref _parentID, value);
     }
 
     private Color _backgroundColor = Colors.Black;
     public Color BackgroundColor
     {
-      get { return _backgroundColor; }
-      set { SetProperty(ref _backgroundColor, value); }
+      get => _backgroundColor;
+      set => SetProperty(ref _backgroundColor, value);
     }
 
     private bool _isGroup;
     public bool IsGroup
     {
-      get { return _isGroup; }
-      set { SetProperty(ref _isGroup, value); }
+      get => _isGroup;
+      set => SetProperty(ref _isGroup, value);
     }
 
     public int ID { get; set; }
@@ -62,20 +62,33 @@ namespace COMPASS.Models
     //can't save parent itself, would cause infinite loop when serializing
     public Tag GetParent()
     {
-      if (ParentID == -1) return null;
-      return AllTags.First(tag => tag.ID == ParentID);
+      return ParentID == -1 ? null : AllTags.First(tag => tag.ID == ParentID);
     }
 
     //returns the first parent that is a group or null if no parents are group
     public virtual object GetGroup()
     {
-      if (IsGroup) return this;
-      if (ParentID == -1) return null;
-      Tag temp = this.GetParent();
+      if (IsGroup)
+      {
+        return this;
+      }
+
+      if (ParentID == -1)
+      {
+        return null;
+      }
+
+      Tag temp = GetParent();
       while (!temp.IsGroup)
       {
-        if (temp.ParentID != -1) temp = temp.GetParent();
-        else break;
+        if (temp.ParentID != -1)
+        {
+          temp = temp.GetParent();
+        }
+        else
+        {
+          break;
+        }
       }
       return temp;
     }
@@ -94,14 +107,12 @@ namespace COMPASS.Models
 
     public override bool Equals(object obj)
     {
-      if (obj == null) return false;
-      return obj is Tag objAsTag && Equals(objAsTag);
+      return obj != null && obj is Tag objAsTag && Equals(objAsTag);
     }
 
     public bool Equals(Tag other)
     {
-      if (other == null) return false;
-      return (this.ID.Equals(other.ID));
+      return other != null && ID.Equals(other.ID);
     }
 
     public override int GetHashCode()

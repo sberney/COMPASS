@@ -20,7 +20,7 @@ namespace COMPASS.ViewModels
     public SettingsViewModel()
     {
       //find name of current release-notes
-      var version = Assembly.GetEntryAssembly().GetName().Version.ToString()[..5];
+      string version = Assembly.GetEntryAssembly().GetName().Version.ToString()[..5];
       if (File.Exists($"release-notes-{version}.md"))
       {
         ReleaseNotes = File.ReadAllText($"release-notes-{version}.md");
@@ -45,14 +45,14 @@ namespace COMPASS.ViewModels
       //Save OpenCodexPriority
       AllPreferences.OpenFilePriorityIDs = OpenCodexPriority.Select(pf => pf.ID).ToList();
 
-      using var writer = XmlWriter.Create(Constants.PreferencesFilePath, XmlWriteSettings);
+      using XmlWriter writer = XmlWriter.Create(Constants.PreferencesFilePath, XmlWriteSettings);
       System.Xml.Serialization.XmlSerializer serializer = new(typeof(SerializablePreferences));
       serializer.Serialize(writer, AllPreferences);
     }
 
     public void LoadPreferences()
     {
-      using (var Reader = new StreamReader(Constants.PreferencesFilePath))
+      using (StreamReader Reader = new(Constants.PreferencesFilePath))
       {
         System.Xml.Serialization.XmlSerializer serializer = new(typeof(SerializablePreferences));
         AllPreferences = serializer.Deserialize(Reader) as SerializablePreferences;
@@ -81,8 +81,8 @@ namespace COMPASS.ViewModels
     private ObservableCollection<PreferableFunction<Codex>> _openCodexPriority;
     public ObservableCollection<PreferableFunction<Codex>> OpenCodexPriority
     {
-      get { return _openCodexPriority; }
-      set { SetProperty(ref _openCodexPriority, value); }
+      get => _openCodexPriority;
+      set => SetProperty(ref _openCodexPriority, value);
     }
     #endregion
 
@@ -94,18 +94,15 @@ namespace COMPASS.ViewModels
     private int _amountRenamed = 0;
     public int AmountRenamed
     {
-      get { return _amountRenamed; }
+      get => _amountRenamed;
       set
       {
-        SetProperty(ref _amountRenamed, value);
+        _ = SetProperty(ref _amountRenamed, value);
         RaisePropertyChanged(nameof(RenameCompleteMessage));
       }
     }
 
-    public string RenameCompleteMessage
-    {
-      get { return $"Renamed Path Reference in {AmountRenamed} Codices"; }
-    }
+    public string RenameCompleteMessage => $"Renamed Path Reference in {AmountRenamed} Codices";
 
     private RelayCommand<object[]> _renameFolderRefCommand;
     public RelayCommand<object[]> RenameFolderRefCommand => _renameFolderRefCommand ??= new(RenameFolderReferences);
@@ -141,11 +138,11 @@ namespace COMPASS.ViewModels
         Arguments = Constants.CompassDataPath,
         FileName = "explorer.exe"
       };
-      Process.Start(startInfo);
+      _ = Process.Start(startInfo);
     }
 
-    private readonly BackgroundWorker createZipWorker = new BackgroundWorker();
-    private readonly BackgroundWorker extractZipWorker = new BackgroundWorker();
+    private readonly BackgroundWorker createZipWorker = new();
+    private readonly BackgroundWorker extractZipWorker = new();
     private LoadingWindow lw;
 
     private ActionCommand _backupLocalFilesCommand;
@@ -201,8 +198,8 @@ namespace COMPASS.ViewModels
     {
       string targetPath = e.Argument as string;
       using ZipFile zip = new();
-      zip.AddDirectory(CodexCollection.CollectionsPath, "Collections");
-      zip.AddFile(Constants.PreferencesFilePath, "");
+      _ = zip.AddDirectory(CodexCollection.CollectionsPath, "Collections");
+      _ = zip.AddFile(Constants.PreferencesFilePath, "");
       zip.Save(targetPath);
     }
 
@@ -241,8 +238,8 @@ namespace COMPASS.ViewModels
     private string _releaseNotes;
     public string ReleaseNotes
     {
-      get { return _releaseNotes; }
-      set { SetProperty(ref _releaseNotes, value); }
+      get => _releaseNotes;
+      set => SetProperty(ref _releaseNotes, value);
     }
     #endregion
 

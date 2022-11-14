@@ -1,4 +1,4 @@
-﻿using BarcodeReaderTool;
+﻿using COMPASS.Tools.BarcodeReader;
 using System;
 using System.Windows;
 
@@ -24,7 +24,7 @@ namespace COMPASS
       cameraLoading.Visibility = Visibility.Visible;
       webcamPreview.Visibility = Visibility.Hidden;
 
-      var selectedCameraDeviceId = 0;
+      int selectedCameraDeviceId = 0;
       if (_webcamStreaming == null || _webcamStreaming.CameraDeviceId != selectedCameraDeviceId)
       {
         _webcamStreaming?.Dispose();
@@ -42,7 +42,7 @@ namespace COMPASS
       }
       catch (Exception ex)
       {
-        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        _ = MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
       }
 
       cameraLoading.Visibility = Visibility.Collapsed;
@@ -56,7 +56,7 @@ namespace COMPASS
 
     private async void _webcamStreaming_OnQRCodeRead(object sender, EventArgs e)
     {
-      var qrCodeData = (e as QRCodeReadEventArgs).QRCodeData;
+      string qrCodeData = (e as QRCodeReadEventArgs).QRCodeData;
       if (!string.IsNullOrWhiteSpace(qrCodeData) && IsValidISBN(qrCodeData))
       {
         DecodedString = qrCodeData;
@@ -85,18 +85,23 @@ namespace COMPASS
           for (int i = 0; i < 9; i++)
           {
             int digit = isbn[i] - '0';
-            if (0 > digit || 9 < digit)
+            if (digit is < 0 or > 9)
+            {
               return false;
-            sum += (digit * (10 - i));
+            }
+
+            sum += digit * (10 - i);
           }
 
           // Checking last digit.
           char last = isbn[9];
-          if (last != 'X' && (last < '0' || last > '9'))
+          if (last is not 'X' and (< '0' or > '9'))
+          {
             return false;
+          }
 
           // If last digit is 'X', add 10 to sum, else add its value.
-          sum += ((last == 'X') ? 10 : (last - '0'));
+          sum += (last == 'X') ? 10 : (last - '0');
 
           // Return true if weighted sum of digits is divisible by 11.
           return sum % 11 == 0;
@@ -105,9 +110,12 @@ namespace COMPASS
           for (int i = 0; i < 13; i++)
           {
             int digit = isbn[i] - '0';
-            if (0 > digit || 9 < digit)
+            if (digit is < 0 or > 9)
+            {
               return false;
-            sum += digit * (1 + 2 * (i % 2));
+            }
+
+            sum += digit * (1 + (2 * (i % 2)));
           }
           // Return true if weighted sum of digits is divisible by 10.
           return sum % 10 == 0;

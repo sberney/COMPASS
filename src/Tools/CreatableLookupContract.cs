@@ -14,21 +14,14 @@ namespace COMPASS.Tools
 
     public bool IsItemEqualToString(object sender, object item, string seachString)
     {
-      if (item is string)
-        return string.Compare(seachString.ToLowerInvariant().Trim(), (item as string).ToLowerInvariant().Trim(), System.StringComparison.InvariantCultureIgnoreCase) == 0;
-      else return false;
+      return item is string
+&& string.Compare(seachString.ToLowerInvariant().Trim(), (item as string).ToLowerInvariant().Trim(), System.StringComparison.InvariantCultureIgnoreCase) == 0;
     }
 
     public bool IsItemMatchingSearchString(object sender, object item, string searchString)
     {
-      if (item as string is null) return false;
-
-      if (string.IsNullOrEmpty(searchString))
-      {
-        return true;
-      }
-
-      return ((string)item).ToLower().Trim().Contains(searchString.ToLower().Trim());
+      return item as string is not null
+&& (string.IsNullOrEmpty(searchString) || ((string)item).ToLower().Trim().Contains(searchString.ToLower().Trim()));
     }
   }
 }

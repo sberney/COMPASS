@@ -8,10 +8,7 @@ namespace COMPASS.Tools.Converters
   {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-      if (values.Length < 2 || values[0] == null)
-        return false;
-
-      return values[0].Equals(values[1]);
+      return values.Length < 2 || values[0] == null ? false : (object)values[0].Equals(values[1]);
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

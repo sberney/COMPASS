@@ -26,11 +26,14 @@ namespace COMPASS.Tools
     //put all nodes of a tree in a flat enumerable
     public static IEnumerable<T> FlattenTree<T>(IEnumerable<T> l) where T : IHasChilderen<T>
     {
-      var result = new List<T>(l);
+      List<T> result = new(l);
       for (int i = 0; i < result.Count; i++)
       {
         T parent = result[i];
-        foreach (T child in parent.Children) result.Add(child);
+        foreach (T child in parent.Children)
+        {
+          result.Add(child);
+        }
       }
       return result;
     }
@@ -43,7 +46,9 @@ namespace COMPASS.Tools
       {
         PingReply reply = p.Send(URL, 3000);
         if (reply.Status == IPStatus.Success)
+        {
           return true;
+        }
       }
       catch (Exception ex)
       {
@@ -74,9 +79,9 @@ namespace COMPASS.Tools
     {
       using HttpClient client = new();
 
-      if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri uriResult)) throw new InvalidOperationException("URI is invalid.");
-
-      return await client.GetByteArrayAsync(uri);
+      return !Uri.TryCreate(uri, UriKind.Absolute, out Uri uriResult)
+    ? throw new InvalidOperationException("URI is invalid.")
+    : await client.GetByteArrayAsync(uri);
     }
 
     public static async Task<JObject> GetJsonAsync(string uri)
@@ -85,12 +90,15 @@ namespace COMPASS.Tools
 
       JObject json = null;
 
-      if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri uriResult)) throw new InvalidOperationException("URI is invalid.");
+      if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri uriResult))
+      {
+        throw new InvalidOperationException("URI is invalid.");
+      }
 
       HttpResponseMessage response = await client.GetAsync(uri);
       if (response.IsSuccessStatusCode)
       {
-        var data = response.Content.ReadAsStringAsync();
+        Task<string> data = response.Content.ReadAsStringAsync();
         json = JObject.Parse(data.Result);
       }
       return json;
@@ -102,14 +110,10 @@ namespace COMPASS.Tools
       string currentUserRegistryPathPattern = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\";
       string localMachineRegistryPathPattern = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\";
 
-      var currentUserPath = Microsoft.Win32.Registry.GetValue(currentUserRegistryPathPattern + name, "", null);
-      var localMachinePath = Microsoft.Win32.Registry.GetValue(localMachineRegistryPathPattern + name, "", null);
+      object currentUserPath = Microsoft.Win32.Registry.GetValue(currentUserRegistryPathPattern + name, "", null);
+      object localMachinePath = Microsoft.Win32.Registry.GetValue(localMachineRegistryPathPattern + name, "", null);
 
-      if (currentUserPath != null | localMachinePath != null)
-      {
-        return true;
-      }
-      return false;
+      return currentUserPath != null | localMachinePath != null;
     }
 
     public static string FindFileDirectory(string fileName)

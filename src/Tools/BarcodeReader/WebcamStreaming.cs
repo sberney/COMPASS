@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace BarcodeReaderTool
+namespace COMPASS.Tools.BarcodeReader
 {
   // based on https://github.com/FrancescoBonizzi/WebcamControl-WPF-With-OpenCV
   public sealed class WebcamStreaming : IDisposable
@@ -43,9 +43,11 @@ namespace BarcodeReaderTool
     {
       // Never run two parallel tasks for the webcam streaming
       if (_previewTask != null && !_previewTask.IsCompleted)
+      {
         return;
+      }
 
-      var initializationSemaphore = new SemaphoreSlim(0, 1);
+      SemaphoreSlim initializationSemaphore = new(0, 1);
 
       _cancellationTokenSource = new CancellationTokenSource();
       _previewTask = Task.Run(async () =>
@@ -54,18 +56,18 @@ namespace BarcodeReaderTool
         {
           // Creation and disposal of this object should be done in the same thread 
           // because if not it throws disconnectedContext exception
-          var videoCapture = new VideoCapture();
+          VideoCapture videoCapture = new();
 
           if (!videoCapture.Open(CameraDeviceId))
           {
             throw new ApplicationException("Cannot connect to camera");
           }
 
-          using (var frame = new Mat())
+          using (Mat frame = new())
           {
             while (!_cancellationTokenSource.IsCancellationRequested)
             {
-              videoCapture.Read(frame);
+              _ = videoCapture.Read(frame);
 
               if (!frame.Empty())
               {
@@ -91,16 +93,15 @@ namespace BarcodeReaderTool
                 }
 
                 // Releases the lock on first not empty frame
-                if (initializationSemaphore != null)
-                  initializationSemaphore.Release();
+                _ = (initializationSemaphore?.Release());
 
                 _lastFrame = FlipHorizontally
-                          ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
-                          : BitmapConverter.ToBitmap(frame);
+                          ? frame.Flip(FlipMode.Y).ToBitmap()
+                          : frame.ToBitmap();
 
-                var lastFrameBitmapImage = _lastFrame.ToBitmapSource();
+                System.Windows.Media.Imaging.BitmapSource lastFrameBitmapImage = _lastFrame.ToBitmapSource();
                 lastFrameBitmapImage.Freeze();
-                _imageControlForRendering.Dispatcher.Invoke(
+                _ = _imageControlForRendering.Dispatcher.Invoke(
                           () => _imageControlForRendering.Source = lastFrameBitmapImage);
               }
 
@@ -113,8 +114,7 @@ namespace BarcodeReaderTool
         }
         finally
         {
-          if (initializationSemaphore != null)
-            initializationSemaphore.Release();
+          _ = (initializationSemaphore?.Release());
         }
 
       }, _cancellationTokenSource.Token);
@@ -136,7 +136,9 @@ namespace BarcodeReaderTool
     {
       // If "Dispose" gets called before Stop
       if (_cancellationTokenSource.IsCancellationRequested)
+      {
         return;
+      }
 
       if (!_previewTask.IsCompleted)
       {
@@ -149,17 +151,15 @@ namespace BarcodeReaderTool
       if (_lastFrame != null)
       {
         //using (var imageFactory = new ImageFactory())
-        using (var stream = new MemoryStream())
-        {
-          //imageFactory
-          //    .Load(_lastFrame)
-          //    .Resize(new ResizeLayer(
-          //        size: new System.Drawing.Size(_frameWidth, _frameHeight),
-          //        resizeMode: ResizeMode.Crop,
-          //        anchorPosition: AnchorPosition.Center))
-          //    .Save(stream);
-          LastPngFrame = stream.ToArray();
-        }
+        using MemoryStream stream = new();
+        //imageFactory
+        //    .Load(_lastFrame)
+        //    .Resize(new ResizeLayer(
+        //        size: new System.Drawing.Size(_frameWidth, _frameHeight),
+        //        resizeMode: ResizeMode.Crop,
+        //        anchorPosition: AnchorPosition.Center))
+        //    .Save(stream);
+        LastPngFrame = stream.ToArray();
       }
       else
       {

@@ -9,9 +9,16 @@ namespace COMPASS.ViewModels
     public TagEditViewModel(Tag ToEdit) : base()
     {
       EditedTag = ToEdit;
-      if (ToEdit == null) CreateNewTag = true;
+      if (ToEdit == null)
+      {
+        CreateNewTag = true;
+      }
+
       TempTag = new Tag(MVM.CurrentCollection.AllTags);
-      if (!CreateNewTag) TempTag.Copy(EditedTag);
+      if (!CreateNewTag)
+      {
+        TempTag.Copy(EditedTag);
+      }
 
       ShowColorSelection = false;
 
@@ -28,18 +35,18 @@ namespace COMPASS.ViewModels
     private Tag tempTag;
     public Tag TempTag
     {
-      get { return tempTag; }
-      set { SetProperty(ref tempTag, value); }
+      get => tempTag;
+      set => SetProperty(ref tempTag, value);
     }
 
     //visibility of Color Selection
     private bool showcolorselection = false;
     public bool ShowColorSelection
     {
-      get { return showcolorselection; }
+      get => showcolorselection;
       set
       {
-        SetProperty(ref showcolorselection, value);
+        _ = SetProperty(ref showcolorselection, value);
         RaisePropertyChanged(nameof(ShowInfoGrid));
       }
     }
@@ -47,7 +54,7 @@ namespace COMPASS.ViewModels
     //visibility of General Info Selection
     public bool ShowInfoGrid
     {
-      get { return !ShowColorSelection; }
+      get => !ShowColorSelection;
       set { }
     }
 
@@ -62,14 +69,20 @@ namespace COMPASS.ViewModels
       if (CreateNewTag)
       {
         EditedTag = new Tag(MVM.CurrentCollection.AllTags);
-        if (TempTag.ParentID == -1) MVM.CurrentCollection.RootTags.Add(EditedTag);
+        if (TempTag.ParentID == -1)
+        {
+          MVM.CurrentCollection.RootTags.Add(EditedTag);
+        }
       }
 
       //Apply changes 
       EditedTag.Copy(TempTag);
       MVM.TFViewModel.TagsTabVM.RefreshTreeView();
 
-      if (!CreateNewTag) CloseAction();
+      if (!CreateNewTag)
+      {
+        CloseAction();
+      }
       else
       {
         MVM.CurrentCollection.AllTags.Add(EditedTag);
@@ -83,7 +96,10 @@ namespace COMPASS.ViewModels
     public ActionCommand CancelCommand => _cancelCommand ??= new(Cancel);
     public void Cancel()
     {
-      if (!CreateNewTag) CloseAction();
+      if (!CreateNewTag)
+      {
+        CloseAction();
+      }
       else
       {
         TempTag = new Tag(MVM.CurrentCollection.AllTags);

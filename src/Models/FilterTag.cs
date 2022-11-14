@@ -15,7 +15,7 @@ namespace COMPASS.Models
       FilterValue = filterValue;
     }
 
-    readonly FilterType FT;
+    private readonly FilterType FT;
     public object FilterValue { get; init; }
 
     public override object GetGroup()
