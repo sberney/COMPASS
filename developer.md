@@ -19,3 +19,8 @@ You can change the install directory specified in `MainViewModel.cs`.
 ## Goal
 
 Ultimately you should be able to clone the source, open the solution, and press F5 to run the application.
+
+
+# Development Goals
+
+Please see [todo.md] for goals and other details.
