@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E241B1C4-362F-4508-8D9C-C287A341EF7F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Changelog.md = Changelog.md
+		LICENSE = LICENSE
+		developer.md = developer.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COMPASS", "src\COMPASS.csproj", "{8AAD94A3-CE1C-41AC-8C2C-9AECE359651F}"

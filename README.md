@@ -41,6 +41,8 @@ I created this project to solve a problem I had and as a learning opportunity. I
 - If you have ideas for new features or improvements, you can put those in a github issue as well.
 - If you would like to financially support me so I can justify spending more time on this, help with potential costs such as code signing or just show some love, you can buy me a coffee over on [ko-fi](https://ko-fi.com/pauldesmul), I would greatly appreciate it.
 
+If you are interested in contributing, please see the [developer guide](developer.md).
+
 ## :camera: Screenshots
 
 ![Home Layout](Docs/Screenshots/Home_Layout.png)
