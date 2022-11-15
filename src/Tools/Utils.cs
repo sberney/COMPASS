@@ -23,16 +23,8 @@ namespace COMPASS.Tools
     //put all nodes of a tree in a flat enumerable
     public static IEnumerable<T> FlattenTree<T>(IEnumerable<T> l) where T : IHasChildren<T>
     {
-      List<T> result = new(l);
-      for (int i = 0; i < result.Count; i++)
-      {
-        T parent = result[i];
-        foreach (T child in parent.Children)
-        {
-          result.Add(child);
-        }
-      }
-      return result;
+      var flattener = new TreeFlattener();
+      return flattener.FlattenTree(l);
     }
 
     //check internet connection
