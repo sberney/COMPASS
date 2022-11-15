@@ -40,9 +40,10 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    #branches: [ "master" ]
+    branches: [ "feature/sberney-reformat" ]
+  #pull_request:
+  #  #branches: [ "master" ]
 
 jobs:
 
