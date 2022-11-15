@@ -7,16 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Changelog.md = Changelog.md
-<<<<<<< Updated upstream
-		LICENSE = LICENSE
 		developer.md = developer.md
-		README.md = README.md
-=======
-		developer.md = developer.md
+		gs\gsdll64.dll = gs\gsdll64.dll
+		gs\gsdll64.lib = gs\gsdll64.lib
+		gs\gswin64.exe = gs\gswin64.exe
+		gs\gswin64c.exe = gs\gswin64c.exe
 		LICENSE = LICENSE
 		README.md = README.md
 		todo.md = todo.md
->>>>>>> Stashed changes
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COMPASS", "src\COMPASS.csproj", "{8AAD94A3-CE1C-41AC-8C2C-9AECE359651F}"

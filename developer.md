@@ -15,6 +15,10 @@ This application relies on the library Magick.NET, which in turn relies on a loc
 Magick.NET [provides directions](https://github.com/dlemstra/Magick.NET/blob/main/docs/Readme.md#ghostscript) on how to accomplish this.
 You can change the install directory specified in `MainViewModel.cs`.
 
+#### Alternative
+
+If you have installed COMPASS from a distributable, you can head into `C:\Program Files\COMPASS\gs` and copy the `gs` directory into this solution.
+
 
 ## Goal
 
