@@ -1,17 +1,19 @@
-﻿using System.Collections.ObjectModel;
+﻿using COMPASS.Core;
+using System.Collections.ObjectModel;
+using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.Models
 {
-  public class TreeViewNode : ObservableObject, IHasChilderen<TreeViewNode>
+  public class TreeViewNode : ObservableObject, IHasChildren<TreeViewNode>
   {
-    public TreeViewNode(Tag t)
+    public TreeViewNode(IWinTag t)
     {
       Tag = t;
       Expanded = t.IsGroup;
     }
 
-    private Tag _tag;
-    public Tag Tag
+    private IWinTag _tag;
+    public IWinTag Tag
     {
       get => _tag;
       set => SetProperty(ref _tag, value);

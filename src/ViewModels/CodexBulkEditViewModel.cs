@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.ViewModels
 {
@@ -52,16 +53,16 @@ namespace COMPASS.ViewModels
     }
 
 
-    private ObservableCollection<Tag> _tagsToAdd = new();
-    private ObservableCollection<Tag> _tagsToRemove = new();
+    private ObservableCollection<IWinTag> _tagsToAdd = new();
+    private ObservableCollection<IWinTag> _tagsToRemove = new();
 
-    public ObservableCollection<Tag> TagsToAdd
+    public ObservableCollection<IWinTag> TagsToAdd
     {
       get => _tagsToAdd;
       set => SetProperty(ref _tagsToAdd, value);
     }
 
-    public ObservableCollection<Tag> TagsToRemove
+    public ObservableCollection<IWinTag> TagsToRemove
     {
       get => _tagsToRemove;
       set => SetProperty(ref _tagsToRemove, value);
@@ -231,12 +232,12 @@ namespace COMPASS.ViewModels
             f.Tags.Add(t);
           }
           //remove duplacates
-          f.Tags = new ObservableCollection<Tag>(f.Tags.Distinct());
+          f.Tags = new ObservableCollection<IWinTag>(f.Tags.Distinct());
         }
         if (TagsToRemove.Count > 0)
         {
           //remove Tags from TagsToRemove
-          foreach (Tag t in TagsToRemove)
+          foreach (var t in TagsToRemove)
           {
             _ = f.Tags.Remove(t);
           }

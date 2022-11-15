@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		Changelog.md = Changelog.md
 		developer.md = developer.md
+		.github\workflows\dotnet-desktop.yml = .github\workflows\dotnet-desktop.yml
 		gs\gsdll64.dll = gs\gsdll64.dll
 		gs\gsdll64.lib = gs\gsdll64.lib
 		gs\gswin64.exe = gs\gswin64.exe
@@ -18,6 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COMPASS", "src\COMPASS.csproj", "{8AAD94A3-CE1C-41AC-8C2C-9AECE359651F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F57C6791-6AC6-4490-8B8A-AFD908BC8426} = {F57C6791-6AC6-4490-8B8A-AFD908BC8426}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F57C6791-6AC6-4490-8B8A-AFD908BC8426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +35,10 @@ Global
 		{8AAD94A3-CE1C-41AC-8C2C-9AECE359651F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AAD94A3-CE1C-41AC-8C2C-9AECE359651F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AAD94A3-CE1C-41AC-8C2C-9AECE359651F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F57C6791-6AC6-4490-8B8A-AFD908BC8426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57C6791-6AC6-4490-8B8A-AFD908BC8426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57C6791-6AC6-4490-8B8A-AFD908BC8426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57C6791-6AC6-4490-8B8A-AFD908BC8426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

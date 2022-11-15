@@ -1,4 +1,5 @@
-﻿using COMPASS.Tools;
+﻿using COMPASS.Core;
+using COMPASS.Tools;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static COMPASS.Tools.Enums;

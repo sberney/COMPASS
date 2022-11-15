@@ -1,23 +1,27 @@
-﻿using COMPASS.Models;
+﻿using COMPASS.Core;
+using COMPASS.Models;
 using COMPASS.ViewModels.Commands;
 using System;
+using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.ViewModels
 {
   public class TagEditViewModel : ViewModelBase, IEditViewModel
   {
-    public TagEditViewModel(Tag ToEdit) : base()
+    public TagEditViewModel(IWinTag toEdit) : base()
     {
-      EditedTag = ToEdit;
-      if (ToEdit == null)
+      var tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);
+
+      EditedTag = toEdit;
+      var isCreating = toEdit == null;
+      if (isCreating)
       {
         CreateNewTag = true;
+        TempTag = tagCreator.CreateFresh();
       }
-
-      TempTag = new Tag(MVM.CurrentCollection.AllTags);
-      if (!CreateNewTag)
+      else
       {
-        TempTag.Copy(EditedTag);
+        TempTag = tagCreator.CreateCopyFrom(EditedTag);
       }
 
       ShowColorSelection = false;
@@ -28,12 +32,12 @@ namespace COMPASS.ViewModels
 
     #region Properties
 
-    private Tag EditedTag;
+    private IWinTag EditedTag;
     private readonly bool CreateNewTag;
 
     //TempTag to work with
-    private Tag tempTag;
-    public Tag TempTag
+    private IWinTag tempTag;
+    public IWinTag TempTag
     {
       get => tempTag;
       set => SetProperty(ref tempTag, value);
@@ -66,29 +70,35 @@ namespace COMPASS.ViewModels
     public ActionCommand OKCommand => _oKCommand ??= new(OKBtn);
     public void OKBtn()
     {
+      var tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);
+
       if (CreateNewTag)
       {
-        EditedTag = new Tag(MVM.CurrentCollection.AllTags);
+        EditedTag = tagCreator.CreateFresh();
         if (TempTag.ParentID == -1)
         {
           MVM.CurrentCollection.RootTags.Add(EditedTag);
         }
       }
+      else
+      {
+        EditedTag = tagCreator.CreateCopyFrom(TempTag);
+      }
 
-      //Apply changes 
-      EditedTag.Copy(TempTag);
+      // Apply changes 
       MVM.TFViewModel.TagsTabVM.RefreshTreeView();
 
-      if (!CreateNewTag)
+      if (CreateNewTag)
       {
-        CloseAction();
+        MVM.CurrentCollection.AllTags.Add(EditedTag);
+        // reset fields
+        tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);  // probably unnecessary to reininitialize here due to pass-by-reference, but not certain
+        TempTag = tagCreator.CreateFresh();
+        EditedTag = null;
       }
       else
       {
-        MVM.CurrentCollection.AllTags.Add(EditedTag);
-        //reset fields
-        TempTag = new Tag(MVM.CurrentCollection.AllTags);
-        EditedTag = null;
+        CloseAction();
       }
     }
 

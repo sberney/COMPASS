@@ -1,4 +1,5 @@
-﻿using COMPASS.Models;
+﻿using COMPASS.Core;
+using COMPASS.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,14 @@ namespace COMPASS.Tools
 {
   public static class Utils
   {
-    public static int GetAvailableID<T>(IEnumerable<T> Collection) where T : IHasID
+    public static int GetAvailableID<T>(IEnumerable<T> collection) where T : IHasID
     {
-      int tempID = 0;
-      while (Collection.Any(f => f.ID == tempID))
-      {
-        tempID++;
-      }
-      return tempID;
+      var creator = new FreshIdCreator();
+      return creator.Create(collection);
     }
 
     //put all nodes of a tree in a flat enumerable
-    public static IEnumerable<T> FlattenTree<T>(IEnumerable<T> l) where T : IHasChilderen<T>
+    public static IEnumerable<T> FlattenTree<T>(IEnumerable<T> l) where T : IHasChildren<T>
     {
       List<T> result = new(l);
       for (int i = 0; i < result.Count; i++)
