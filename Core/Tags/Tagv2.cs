@@ -18,10 +18,20 @@ namespace COMPASS.Core.Tags
     private Color BackgroundColorInternal = Colors.Black;
     private bool IsGroupInternal;
 
+    /// <summary>
+    /// Creates a new tag using the indicated Id
+    /// </summary>
+    /// <param name="tagId">Globally unique ID representing this tag uniquely</param>
     public Tagv2(TagId tagId)
     {
       TagId = tagId.Value;
     }
+
+    /// <summary>
+    /// DO NOT USE.
+    /// Required for XmlSerializer automated data population.
+    /// </summary>
+    protected Tagv2() { }
 
     public int Id { get => TagId; set => SetProperty(ref TagId, value); }
 
