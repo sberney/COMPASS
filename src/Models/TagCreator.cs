@@ -1,21 +1,12 @@
 ﻿using COMPASS.Core.Tags;
-using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace COMPASS.Models
 {
   public class TagCreator : ITagCreator
   {
-    protected IList<ITag> ExistingTags;
-    public TagCreator(IList<ITag> existingTags)
-    {
-      ExistingTags = existingTags;
-    }
+    protected ITagContext TagContext => new TagContext();
+    protected IList<ITag> ExistingTags => TagContext.AllTags;
 
     public ITag CreateCopyOf(ITag source)
     {

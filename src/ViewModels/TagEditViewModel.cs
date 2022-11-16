@@ -9,7 +9,7 @@ namespace COMPASS.ViewModels
   {
     public TagEditViewModel(ITag toEdit) : base()
     {
-      var tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);
+      var tagCreator = new TagCreator();
 
       EditedTag = toEdit;
       var isCreating = toEdit == null;
@@ -69,7 +69,7 @@ namespace COMPASS.ViewModels
     public ActionCommand OKCommand => _oKCommand ??= new(OKBtn);
     public void OKBtn()
     {
-      var tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);
+      var tagCreator = new TagCreator();
 
       if (CreateNewTag)
       {
@@ -91,7 +91,6 @@ namespace COMPASS.ViewModels
       {
         MVM.CurrentCollection.AllTags.Add(EditedTag);
         // reset fields
-        tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);  // probably unnecessary to reininitialize here due to pass-by-reference, but not certain
         TempTag = tagCreator.CreateFresh();
         EditedTag = null;
       }
