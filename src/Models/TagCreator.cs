@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace COMPASS.Models
 {
-  public class TagCreator : ITagCreator<Color>
+  public class TagCreator : ITagCreator
   {
     protected IList<ITag> ExistingTags;
     public TagCreator(IList<ITag> existingTags)
@@ -17,7 +17,7 @@ namespace COMPASS.Models
       ExistingTags = existingTags;
     }
 
-    public ITag CreateCopyFrom(ITag source)
+    public ITag CreateCopyOf(ITag source)
     {
       var tag = new Tag(ExistingTags);
       tag.CopyFrom(source, ExistingTags);

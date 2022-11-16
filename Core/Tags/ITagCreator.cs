@@ -1,8 +1,8 @@
 ﻿namespace COMPASS.Core.Tags
 {
-  public interface ITagCreator<TColor>
+  public interface ITagCreator
   {
     ITag CreateFresh();
-    ITag CreateCopyFrom(ITag source);
+    ITag CreateCopyOf(ITag source);
   }
 }

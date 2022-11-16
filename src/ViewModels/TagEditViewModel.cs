@@ -20,7 +20,7 @@ namespace COMPASS.ViewModels
       }
       else
       {
-        TempTag = tagCreator.CreateCopyFrom(EditedTag);
+        TempTag = tagCreator.CreateCopyOf(EditedTag);
       }
 
       ShowColorSelection = false;
@@ -81,7 +81,7 @@ namespace COMPASS.ViewModels
       }
       else
       {
-        EditedTag = tagCreator.CreateCopyFrom(TempTag);
+        EditedTag = tagCreator.CreateCopyOf(TempTag);
       }
 
       // Apply changes 
