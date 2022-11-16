@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
   public class TagLoader : ITagLoader
   {

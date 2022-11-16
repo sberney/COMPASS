@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
   public interface ITagContext
   {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
   public interface ITag : IHasId, IHasChildren<ITag>
   {

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
-  public interface ITagLoader
+  public interface ITagWithContext
   {
-    LoadedTags? LoadTags(FilePath? tagsFile);
+    ITag Tag { get; }
+    ITagContext Context { get; }
   }
 }

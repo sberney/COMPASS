@@ -1,7 +1,7 @@
 ﻿using COMPASS.Core.JsonConverters;
 using Newtonsoft.Json;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
   public struct TagId : IStronglyTypedInt
   {

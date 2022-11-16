@@ -1,4 +1,5 @@
 ﻿using COMPASS.Core;
+using COMPASS.Core.Tags;
 using System.Collections.ObjectModel;
 
 namespace COMPASS.Models

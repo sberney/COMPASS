@@ -1,4 +1,5 @@
 ﻿using COMPASS.Core;
+using COMPASS.Core.Tags;
 using COMPASS.Tools;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

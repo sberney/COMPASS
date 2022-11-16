@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
   public class TagContext : ITagContext
   {

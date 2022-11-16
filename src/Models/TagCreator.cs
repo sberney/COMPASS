@@ -1,4 +1,4 @@
-﻿using COMPASS.Core;
+﻿using COMPASS.Core.Tags;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Text;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace COMPASS.Core
+namespace COMPASS.Core.Tags
 {
   public class Tagv2 : ObservableObject, IHasId, IHasChildren<ITag>, ITag
   {

@@ -1,4 +1,4 @@
-﻿using COMPASS.Core;
+﻿using COMPASS.Core.Tags;
 using COMPASS.Models;
 using COMPASS.ViewModels.Commands;
 
