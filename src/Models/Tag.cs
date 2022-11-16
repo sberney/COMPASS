@@ -31,6 +31,23 @@ namespace COMPASS.Models
       get => _childeren;
       set => SetProperty(ref _childeren, value);
     }
+    IReadOnlyList<ITag> IHasChildren<ITag>.Children => _childeren;
+    public void AddChild(ITag child)
+    {
+      Children.Add(child);
+    }
+
+    public void RemoveChild(ITag child)
+    {
+      Children.Remove(child);
+    }
+
+    public void ClearChildren()
+    {
+      Children.Clear();
+    }
+
+
 
     private string _content = "";
     public string Content

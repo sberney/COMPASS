@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace COMPASS.Core.Tags
 {
-  public class Tagv2 : ObservableObject, IHasId, IHasChildren<ITag>, ITag
+  public class Tagv2 : ObservableObject, IHasId, IHasChildren<Tagv2>, ITag
   {
     private TagId TagId;
     private ObservableCollection<ITag> ChildrenInternal = new();
@@ -35,10 +35,29 @@ namespace COMPASS.Core.Tags
 
     public int Id { get => TagId; set => SetProperty(ref TagId, value); }
 
+    [XmlIgnoreAttribute]
     public ObservableCollection<ITag> Children
     {
       get => ChildrenInternal;
       set => SetProperty(ref ChildrenInternal, value);
+    }
+    IReadOnlyList<Tagv2> IHasChildren<Tagv2>.Children => Children.Select(child => child as Tagv2).Where(child => child is not null).ToList();
+    [XmlIgnoreAttribute]
+    IReadOnlyList<ITag> IHasChildren<ITag>.Children => Children;
+
+    public void AddChild(ITag child)
+    {
+      Children.Add(child);
+    }
+
+    public void RemoveChild(ITag child)
+    {
+      Children.Remove(child);
+    }
+
+    public void ClearChildren()
+    {
+      Children.Clear();
     }
 
     public string Content

@@ -4,7 +4,7 @@ using System.Windows.Media;
 namespace COMPASS.Core.Tags
 {
   // todo: add template parameter for Group type if GetGroup remains on this interface
-  public interface ITag : IHasId, IHasChildren<ITag>
+  public interface ITag : IHasId, IHasChildren<ITag>, IHasMutableChildren<ITag>
   {
     Color BackgroundColor { get; set; }
     string Content { get; set; }
@@ -14,5 +14,12 @@ namespace COMPASS.Core.Tags
     bool Equals(object? obj);
     bool Equals(ITag? other);
     int GetHashCode();
+  }
+
+  public interface IHasMutableChildren<T>
+  {
+    void AddChild(T child);
+    void RemoveChild(T child);
+    void ClearChildren();
   }
 }

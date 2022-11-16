@@ -168,7 +168,10 @@ namespace COMPASS.Models
       }
       _ = AllTags.Remove(todel);
       //remove from parent items list
-      _ = todel.ParentId == -1 ? RootTags.Remove(todel) : todel.GetParent().Children.Remove(todel);
+      if (todel.ParentId == -1)
+        RootTags.Remove(todel);
+      else
+        todel.GetParent().RemoveChild(todel);
     }
 
     public void RenameCollection(string NewCollectionName)

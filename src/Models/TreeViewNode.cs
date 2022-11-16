@@ -1,5 +1,6 @@
 ﻿using COMPASS.Core;
 using COMPASS.Core.Tags;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace COMPASS.Models
@@ -25,6 +26,7 @@ namespace COMPASS.Models
       get => _children;
       set => SetProperty(ref _children, value);
     }
+    IReadOnlyList<TreeViewNode> IHasChildren<TreeViewNode>.Children => _children;
 
     private bool _selected = false;
     public bool Selected

@@ -71,14 +71,14 @@ namespace COMPASS.ViewModels
 
     private ITag ConvertTreeViewNodeToTag(TreeViewNode node)
     {
-      ITag Result = node.Tag;
+      var Result = node.Tag;
       //clear childeren the tag thinks it has
-      Result.Children.Clear();
+      Result.ClearChildren();
 
       //add childeren accodring to treeview
       foreach (TreeViewNode childnode in node.Children)
       {
-        Result.Children.Add(ConvertTreeViewNodeToTag(childnode));
+        Result.AddChild(ConvertTreeViewNodeToTag(childnode));
       }
       //set partentID for all the childeren
       foreach (var childtag in Result.Children)
