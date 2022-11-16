@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.Models
 {
@@ -166,10 +165,10 @@ namespace COMPASS.Models
       set => SetProperty(ref _physically_Owned, value);
     }
 
-    private ObservableCollection<IWinTag> _tags = new();
+    private ObservableCollection<ITag> _tags = new();
     //Don't save all the tags, only save ID's instead
     [XmlIgnoreAttribute]
-    public ObservableCollection<IWinTag> Tags
+    public ObservableCollection<ITag> Tags
     {
       get => _tags;
       set => SetProperty(ref _tags, value);

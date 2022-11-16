@@ -1,11 +1,18 @@
-﻿namespace COMPASS.Core
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace COMPASS.Core
 {
-  public class TagLoader<TColor> : ITagLoader<TColor>
+  public class TagLoader : ITagLoader
   {
     TreeFlattener TreeFlattener = new();
 
-    public LoadedTags<TColor>? LoadTags(FilePath? tagsFile)
+    public LoadedTags? LoadTags(FilePath? tagsFile)
     {
+      throw new NotImplementedException("asdf");
+      /*
       if (tagsFile == null)
       {
         return null;
@@ -33,6 +40,7 @@
           t.AllTags = AllTags;
         }
       }
+      */
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using COMPASS.Models;
+﻿using COMPASS.Core;
+using COMPASS.Models;
 using COMPASS.Tools;
 using FuzzySharp;
 using System;
@@ -8,7 +9,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.ViewModels
 {
@@ -48,7 +48,7 @@ namespace COMPASS.ViewModels
     public int ItemsShown => Math.Min(_itemsShown, ActiveFiles.Count);
 
     //CollectionDirectories
-    public ObservableCollection<IWinTag> ActiveTags { get; set; }
+    public ObservableCollection<ITag> ActiveTags { get; set; }
     public ObservableCollection<FilterTag> ActiveFilters { get; set; }
     public ObservableCollection<FilterTag> SearchFilters { get; set; }
 
@@ -104,7 +104,7 @@ namespace COMPASS.ViewModels
     public void UpdateTagFilteredFiles()
     {
       ExcludedCodicesByTag.Clear();
-      HashSet<IWinTag> ActiveGroups = new();
+      HashSet<ITag> ActiveGroups = new();
 
 
       //Find all the active groups to filter in
@@ -120,11 +120,11 @@ namespace COMPASS.ViewModels
       foreach (Tag Group in ActiveGroups)
       {
         //Make list with all active tags in that group, including childeren
-        List<IWinTag> SingleGroupTags = Utils.FlattenTree(ActiveTags.Where(tag => tag.GetGroup() == Group)).ToList();
+        List<ITag> SingleGroupTags = Utils.FlattenTree(ActiveTags.Where(tag => tag.GetGroup() == Group)).ToList();
         //add parents of those tags, must come AFTER chileren, otherwise childeren of parents are included which is wrong
         for (int i = 0; i < SingleGroupTags.Count; i++)
         {
-          IWinTag P = SingleGroupTags[i].GetParent();
+          ITag P = SingleGroupTags[i].GetParent();
           if (P != null && !P.IsGroup && !SingleGroupTags.Contains(P))
           {
             SingleGroupTags.Add(P);
@@ -138,7 +138,7 @@ namespace COMPASS.ViewModels
       UpdateActiveFiles();
     }
 
-    public void AddTagFilter(IWinTag t)
+    public void AddTagFilter(ITag t)
     {
       //only add if not yet in activetags
       if (ActiveTags.All(p => p.ID != t.ID))
@@ -147,7 +147,7 @@ namespace COMPASS.ViewModels
       }
     }
 
-    public void RemoveTagFilter(IWinTag t)
+    public void RemoveTagFilter(ITag t)
     {
       _ = ActiveTags.Remove(t);
     }

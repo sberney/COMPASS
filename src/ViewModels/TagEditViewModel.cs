@@ -2,13 +2,12 @@
 using COMPASS.Models;
 using COMPASS.ViewModels.Commands;
 using System;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.ViewModels
 {
   public class TagEditViewModel : ViewModelBase, IEditViewModel
   {
-    public TagEditViewModel(IWinTag toEdit) : base()
+    public TagEditViewModel(ITag toEdit) : base()
     {
       var tagCreator = new TagCreator(MVM.CurrentCollection.AllTags);
 
@@ -32,12 +31,12 @@ namespace COMPASS.ViewModels
 
     #region Properties
 
-    private IWinTag EditedTag;
+    private ITag EditedTag;
     private readonly bool CreateNewTag;
 
     //TempTag to work with
-    private IWinTag tempTag;
-    public IWinTag TempTag
+    private ITag tempTag;
+    public ITag TempTag
     {
       get => tempTag;
       set => SetProperty(ref tempTag, value);

@@ -1,4 +1,6 @@
-﻿namespace COMPASS.Core.JsonConverters
+﻿using System;
+
+namespace COMPASS.Core.JsonConverters
 {
   public class StronglyTypedStringConverterException : Exception
   {

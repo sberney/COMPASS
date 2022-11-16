@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace COMPASS.Core
 {
-  public interface ITagLoader<TColor>
+  public interface ITagLoader
   {
-    LoadedTags<TColor>? LoadTags(FilePath? tagsFile);
+    LoadedTags? LoadTags(FilePath? tagsFile);
   }
 }

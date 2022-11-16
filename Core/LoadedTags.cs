@@ -1,8 +1,10 @@
-﻿namespace COMPASS.Core
+﻿using System.Collections.Generic;
+
+namespace COMPASS.Core
 {
-    public struct LoadedTags<TColor>
+  public struct LoadedTags
   {
-    public readonly IList<ITag<TColor>> Root { get; init; }
-    public readonly IList<ITag<TColor>> All { get; init; }
+    public readonly IList<ITag> Root { get; init; }
+    public readonly IList<ITag> All { get; init; }
   }
 }

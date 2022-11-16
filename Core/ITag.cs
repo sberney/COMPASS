@@ -1,19 +1,20 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace COMPASS.Core
 {
-  public interface ITag<TColor> : IHasID, IHasChildren<ITag<TColor>>
+  public interface ITag : IHasID, IHasChildren<ITag>
   {
-    TColor BackgroundColor { get; set; }
+    Color BackgroundColor { get; set; }
     string Content { get; set; }
     bool IsGroup { get; set; }
     int ParentID { get; set; }
 
     // void Copy(ITag t);
     bool Equals(object obj);
-    bool Equals(ITag<TColor> other);
+    bool Equals(ITag other);
     object GetGroup();
     int GetHashCode();
-    ITag<TColor> GetParent();
+    ITag GetParent();
   }
 }

@@ -1,11 +1,11 @@
-﻿using COMPASS.Tools;
+﻿using COMPASS.Core;
+using COMPASS.Tools;
 using COMPASS.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.Models
 {
@@ -35,8 +35,8 @@ namespace COMPASS.Models
     public string TagsDataFilepath => CollectionsPath + DirectoryName + @"\Tags.xml";
 
     //Tag Lists
-    public List<IWinTag> AllTags { get; private set; } = new();
-    public List<IWinTag> RootTags { get; set; }
+    public List<ITag> AllTags { get; private set; } = new();
+    public List<ITag> RootTags { get; set; }
 
     //File Lists
     public ObservableCollection<Codex> AllCodices { get; private set; } = new();
@@ -67,7 +67,7 @@ namespace COMPASS.Models
         using (StreamReader Reader = new(TagsDataFilepath))
         {
           System.Xml.Serialization.XmlSerializer serializer = new(typeof(List<Tag>));
-          RootTags = serializer.Deserialize(Reader) as List<IWinTag>;
+          RootTags = serializer.Deserialize(Reader) as List<ITag>;
         }
 
         //Constructing AllTags and pass it to all the tags
@@ -158,7 +158,7 @@ namespace COMPASS.Models
       File.Delete(Todelete.Thumbnail);
     }
 
-    public void DeleteTag(IWinTag todel)
+    public void DeleteTag(ITag todel)
     {
       //Recursive loop to delete all childeren
       if (todel.Children.Count > 0)

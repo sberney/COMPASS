@@ -5,16 +5,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.Models
 {
-  public class Tag : ObservableObject, IHasID, IHasChildren<IWinTag>, IWinTag
+  public class Tag : ObservableObject, IHasID, IHasChildren<ITag>, ITag
   {
     // Empty Contructor needed for serialization
     public Tag() { }
 
-    public Tag(IList<IWinTag> alltags)
+    public Tag(IList<ITag> alltags)
     {
       AllTags = alltags;
       var creator = new FreshIdCreator();
@@ -23,10 +22,10 @@ namespace COMPASS.Models
 
     //needed to get parent tag from parent ID
     [XmlIgnoreAttribute]
-    public IList<IWinTag> AllTags;
+    public IList<ITag> AllTags;
 
-    private ObservableCollection<IWinTag> _childeren = new();
-    public ObservableCollection<IWinTag> Children
+    private ObservableCollection<ITag> _childeren = new();
+    public ObservableCollection<ITag> Children
     {
       get => _childeren;
       set => SetProperty(ref _childeren, value);
@@ -63,7 +62,7 @@ namespace COMPASS.Models
     public int ID { get; set; }
 
     //can't save parent itself, would cause infinite loop when serializing
-    public IWinTag GetParent()
+    public ITag GetParent()
     {
       return ParentID == -1 ? null : AllTags.First(tag => tag.ID == ParentID);
     }
@@ -97,23 +96,23 @@ namespace COMPASS.Models
     }
 
     #region Equal and Copy Fucntions
-    public void CopyFrom(IWinTag source, IList<IWinTag> allTags)
+    public void CopyFrom(ITag source, IList<ITag> allTags)
     {
       ID = source.ID;
       Content = source.Content;
       ParentID = source.ParentID;
       IsGroup = source.IsGroup;
       BackgroundColor = source.BackgroundColor;
-      Children = new ObservableCollection<IWinTag>(source.Children);
+      Children = new ObservableCollection<ITag>(source.Children);
       AllTags = allTags;
     }
 
     public override bool Equals(object obj)
     {
-      return obj != null && obj is IWinTag objAsTag && Equals(objAsTag);
+      return obj != null && obj is ITag objAsTag && Equals(objAsTag);
     }
 
-    public bool Equals(IWinTag other)
+    public bool Equals(ITag other)
     {
       return other != null && ID.Equals(other.ID);
     }

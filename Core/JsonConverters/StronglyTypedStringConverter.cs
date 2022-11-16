@@ -11,7 +11,7 @@ namespace COMPASS.Core.JsonConverters
       return objectType == typeof(T);
     }
 
-    public override object? ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
     {
       if (reader.TokenType != JsonToken.String)
         return null;
@@ -22,7 +22,9 @@ namespace COMPASS.Core.JsonConverters
 
       try
       {
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         return (T)Activator.CreateInstance(typeof(T), stringRepresentation);
+#pragma warning restore CS8605 // Unboxing a possibly null value.
       }
       catch (Exception e)
       {
@@ -33,10 +35,12 @@ namespace COMPASS.Core.JsonConverters
       }
     }
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
       if (value is IStronglyTypedString stronglyTypedString)
+      {
         writer.WriteValue(stronglyTypedString.Value);
+      }
     }
   }
 }

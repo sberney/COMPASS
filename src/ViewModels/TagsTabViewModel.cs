@@ -1,6 +1,6 @@
-﻿using COMPASS.Models;
+﻿using COMPASS.Core;
+using COMPASS.Models;
 using COMPASS.ViewModels.Commands;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.ViewModels
 {
@@ -13,7 +13,7 @@ namespace COMPASS.ViewModels
     }
 
     //Tag for Context Menu
-    public IWinTag Context;
+    public ITag Context;
 
     public ActionCommand EditTagCommand { get; init; }
     public void EditTag()

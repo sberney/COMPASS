@@ -26,7 +26,7 @@ namespace COMPASS.Core
     string SortingTitle { get; set; }
     string SourceURL { get; set; }
     List<int> TagIDs { get; set; }
-    ObservableCollection<ITag<TColor>> Tags { get; set; }
+    ObservableCollection<ITag> Tags { get; set; }
     string Thumbnail { get; set; }
     string Title { get; set; }
     string Version { get; set; }

@@ -1,22 +1,22 @@
-﻿using COMPASS.Models;
+﻿using COMPASS.Core;
+using COMPASS.Models;
 using COMPASS.Tools;
 using GongSolutions.Wpf.DragDrop;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using IWinTag = COMPASS.Core.ITag<System.Windows.Media.Color>;
 
 namespace COMPASS.ViewModels
 {
   public abstract class DealsWithTreeviews : ViewModelBase, IDropTarget
   {
-    public DealsWithTreeviews(List<IWinTag> treeRoot)
+    public DealsWithTreeviews(List<ITag> treeRoot)
     {
       TreeRoot = treeRoot;
       RefreshTreeView();
     }
 
-    private List<IWinTag> TreeRoot { get; set; }
+    private List<ITag> TreeRoot { get; set; }
 
     //TreeViewSource with hierarchy
     private ObservableCollection<TreeViewNode> _treeviewsource;
@@ -34,10 +34,10 @@ namespace COMPASS.ViewModels
       set => SetProperty(ref _alltreeViewNodes, value);
     }
 
-    public ObservableCollection<TreeViewNode> CreateTreeViewSource(List<IWinTag> rootTags)
+    public ObservableCollection<TreeViewNode> CreateTreeViewSource(List<ITag> rootTags)
     {
       ObservableCollection<TreeViewNode> newRootNodes = new();
-      foreach (IWinTag t in rootTags)
+      foreach (ITag t in rootTags)
       {
         newRootNodes.Add(ConvertTagToTreeViewNode(t));
       }
@@ -45,9 +45,9 @@ namespace COMPASS.ViewModels
       return newRootNodes;
     }
 
-    public List<IWinTag> ExtractTagsFromTreeViewSource(ObservableCollection<TreeViewNode> treeViewSource)
+    public List<ITag> ExtractTagsFromTreeViewSource(ObservableCollection<TreeViewNode> treeViewSource)
     {
-      List<IWinTag> newRootTags = new();
+      List<ITag> newRootTags = new();
       foreach (TreeViewNode n in treeViewSource)
       {
         newRootTags.Add(ConvertTreeViewNodeToTag(n));
@@ -58,10 +58,10 @@ namespace COMPASS.ViewModels
       }
       return newRootTags;
     }
-    private TreeViewNode ConvertTagToTreeViewNode(IWinTag t)
+    private TreeViewNode ConvertTagToTreeViewNode(ITag t)
     {
       TreeViewNode Result = new(t);
-      foreach (IWinTag t2 in t.Children)
+      foreach (ITag t2 in t.Children)
       {
         Result.Children.Add(ConvertTagToTreeViewNode(t2));
       }
@@ -69,9 +69,9 @@ namespace COMPASS.ViewModels
       return Result;
     }
 
-    private IWinTag ConvertTreeViewNodeToTag(TreeViewNode node)
+    private ITag ConvertTreeViewNodeToTag(TreeViewNode node)
     {
-      IWinTag Result = node.Tag;
+      ITag Result = node.Tag;
       //clear childeren the tag thinks it has
       Result.Children.Clear();
 
