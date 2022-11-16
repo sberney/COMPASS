@@ -11,7 +11,7 @@ namespace COMPASS.Models
     {
       Content = name;
       Function = func;
-      ID = id;
+      Id = id;
       BackgroundColor = (Color)ColorConverter.ConvertFromString("#16D68A");
     }
 

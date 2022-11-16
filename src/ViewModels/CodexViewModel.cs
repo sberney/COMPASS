@@ -232,7 +232,7 @@ namespace COMPASS.ViewModels
         {
           ToMove.Tags.Clear();
           // Give file new ID and move it to other folder
-          ToMove.ID = Utils.GetAvailableID(TargetCollection.AllCodices);
+          ToMove.Id = Utils.GetAvailableID(TargetCollection.AllCodices);
 
           //Add Codex to target CodexCollection
           TargetCollection.AllCodices.Add(ToMove);
@@ -245,8 +245,8 @@ namespace COMPASS.ViewModels
           }
 
           //Move cover art to right folder with new ID
-          string newCoverArt = CodexCollection.CollectionsPath + targetCollectionName + @"\CoverArt\" + ToMove.ID + ".png";
-          string newThumbnail = CodexCollection.CollectionsPath + targetCollectionName + @"\Thumbnails\" + ToMove.ID + ".png";
+          string newCoverArt = CodexCollection.CollectionsPath + targetCollectionName + @"\CoverArt\" + ToMove.Id + ".png";
+          string newThumbnail = CodexCollection.CollectionsPath + targetCollectionName + @"\Thumbnails\" + ToMove.Id + ".png";
           File.Copy(ToMove.CoverArt, newCoverArt);
           File.Copy(ToMove.Thumbnail, newThumbnail);
 

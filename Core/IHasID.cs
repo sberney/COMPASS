@@ -1,7 +1,7 @@
 ﻿namespace COMPASS.Core
 {
-  public interface IHasID
+  public interface IHasId
   {
-    public int ID { get; set; }
+    public int Id { get; set; }
   }
 }

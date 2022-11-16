@@ -8,10 +8,10 @@ namespace COMPASS.Core
 {
   public class FreshIdCreator
   {
-    public int Create<T>(IEnumerable<T> collection) where T : IHasID
+    public int Create<T>(IEnumerable<T> collection) where T : IHasId
     {
       int tempID = 0;
-      while (collection.Any(f => f.ID == tempID))
+      while (collection.Any(f => f.Id == tempID))
       {
         tempID++;
       }

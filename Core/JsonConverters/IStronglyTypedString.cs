@@ -6,8 +6,7 @@
   /// may decorate itself with [JsonConverter(typeof(StronglyTypedStringConverter{T}))]
   // in order to enable automatically serialization to and from a string type.
   /// </summary>
-  public interface IStronglyTypedString
+  public interface IStronglyTypedString : IStronglyTypedAlias<string>
   {
-    string Value { get; }
   }
 }

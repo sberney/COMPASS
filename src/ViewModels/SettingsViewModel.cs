@@ -43,7 +43,7 @@ namespace COMPASS.ViewModels
     public void SavePreferences()
     {
       //Save OpenCodexPriority
-      AllPreferences.OpenFilePriorityIDs = OpenCodexPriority.Select(pf => pf.ID).ToList();
+      AllPreferences.OpenFilePriorityIDs = OpenCodexPriority.Select(pf => pf.Id).ToList();
 
       using XmlWriter writer = XmlWriter.Create(Constants.PreferencesFilePath, XmlWriteSettings);
       System.Xml.Serialization.XmlSerializer serializer = new(typeof(SerializablePreferences));
@@ -59,7 +59,7 @@ namespace COMPASS.ViewModels
         Reader.Close();
       }
       //put openFilePriority in right order
-      OpenCodexPriority = new ObservableCollection<PreferableFunction<Codex>>(OpenCodexFunctions.OrderBy(pf => AllPreferences.OpenFilePriorityIDs.IndexOf(pf.ID)));
+      OpenCodexPriority = new ObservableCollection<PreferableFunction<Codex>>(OpenCodexFunctions.OrderBy(pf => AllPreferences.OpenFilePriorityIDs.IndexOf(pf.Id)));
     }
 
     public void CreateDefaultPreferences()

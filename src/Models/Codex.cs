@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace COMPASS.Models
 {
-  public class Codex : ObservableObject, IHasID//, ICodex
+  public class Codex : ObservableObject, IHasId//, ICodex
   {
     //empty constructor for serialization
     public Codex()
@@ -20,9 +20,9 @@ namespace COMPASS.Models
     public Codex(CodexCollection cc) : this()
     {
       Tags = new();
-      ID = Utils.GetAvailableID(cc.AllCodices);
-      CoverArt = CodexCollection.CollectionsPath + cc.DirectoryName + @"\CoverArt\" + ID.ToString() + ".png";
-      Thumbnail = CodexCollection.CollectionsPath + cc.DirectoryName + @"\Thumbnails\" + ID.ToString() + ".png";
+      Id = Utils.GetAvailableID(cc.AllCodices);
+      CoverArt = CodexCollection.CollectionsPath + cc.DirectoryName + @"\CoverArt\" + Id.ToString() + ".png";
+      Thumbnail = CodexCollection.CollectionsPath + cc.DirectoryName + @"\Thumbnails\" + Id.ToString() + ".png";
 
     }
 
@@ -35,7 +35,7 @@ namespace COMPASS.Models
       Publisher = c.Publisher;
       Version = c.Version;
       SourceURL = c.SourceURL;
-      ID = c.ID;
+      Id = c.Id;
       CoverArt = c.CoverArt;
       Thumbnail = c.Thumbnail;
       Physically_Owned = c.Physically_Owned;
@@ -142,7 +142,7 @@ namespace COMPASS.Models
       set => SetProperty(ref _sourceURL, value);
     }
 
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     private string _coverArt;
     public string CoverArt

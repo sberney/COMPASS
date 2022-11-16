@@ -74,7 +74,7 @@ namespace COMPASS.ViewModels
       if (CreateNewTag)
       {
         EditedTag = tagCreator.CreateFresh();
-        if (TempTag.ParentID == -1)
+        if (TempTag.ParentId == -1)
         {
           MVM.CurrentCollection.RootTags.Add(EditedTag);
         }

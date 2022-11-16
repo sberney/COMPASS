@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace COMPASS.Models
 {
-  public class Tag : ObservableObject, IHasID, IHasChildren<ITag>, ITag
+  public class Tag : ObservableObject, IHasId, IHasChildren<ITag>, ITag
   {
     // Empty Contructor needed for serialization
     public Tag() { }
@@ -17,7 +17,7 @@ namespace COMPASS.Models
     {
       AllTags = alltags;
       var creator = new FreshIdCreator();
-      ID = creator.Create(alltags);
+      Id = creator.Create(alltags);
     }
 
     //needed to get parent tag from parent ID
@@ -39,7 +39,7 @@ namespace COMPASS.Models
     }
 
     private int _parentID = -1;
-    public int ParentID
+    public int ParentId
     {
       get => _parentID;
       set => SetProperty(ref _parentID, value);
@@ -59,23 +59,23 @@ namespace COMPASS.Models
       set => SetProperty(ref _isGroup, value);
     }
 
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     //can't save parent itself, would cause infinite loop when serializing
     public ITag GetParent()
     {
-      return ParentID == -1 ? null : AllTags.First(tag => tag.ID == ParentID);
+      return ParentId == -1 ? null : AllTags.First(tag => tag.Id == ParentId);
     }
 
     //returns the first parent that is a group or null if no parents are group
-    public virtual object GetGroup()
+    public virtual ITag? GetGroup()
     {
       if (IsGroup)
       {
         return this;
       }
 
-      if (ParentID == -1)
+      if (ParentId == -1)
       {
         return null;
       }
@@ -83,7 +83,7 @@ namespace COMPASS.Models
       var temp = GetParent();
       while (!temp.IsGroup)
       {
-        if (temp.ParentID != -1)
+        if (temp.ParentId != -1)
         {
           temp = temp.GetParent();
         }
@@ -98,9 +98,9 @@ namespace COMPASS.Models
     #region Equal and Copy Fucntions
     public void CopyFrom(ITag source, IList<ITag> allTags)
     {
-      ID = source.ID;
+      Id = source.Id;
       Content = source.Content;
-      ParentID = source.ParentID;
+      ParentId = source.ParentId;
       IsGroup = source.IsGroup;
       BackgroundColor = source.BackgroundColor;
       Children = new ObservableCollection<ITag>(source.Children);
@@ -114,12 +114,12 @@ namespace COMPASS.Models
 
     public bool Equals(ITag other)
     {
-      return other != null && ID.Equals(other.ID);
+      return other != null && Id.Equals(other.Id);
     }
 
     public override int GetHashCode()
     {
-      return ID;
+      return Id;
     }
     #endregion
   }

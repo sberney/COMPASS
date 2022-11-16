@@ -107,7 +107,7 @@ namespace COMPASS.Models
           //reconstruct tags from ID's
           foreach (int id in f.TagIDs)
           {
-            f.Tags.Add(AllTags.First(t => t.ID == id));
+            f.Tags.Add(AllTags.First(t => t.Id == id));
           }
 
           //apply sorting titles
@@ -138,7 +138,7 @@ namespace COMPASS.Models
       //Copy id's of tags into list for serialisation
       foreach (Codex codex in AllCodices)
       {
-        codex.TagIDs = codex.Tags.Select(t => t.ID).ToList();
+        codex.TagIDs = codex.Tags.Select(t => t.Id).ToList();
       }
 
       using XmlWriter writer = XmlWriter.Create(CodicesDataFilePath, SettingsViewModel.XmlWriteSettings);
@@ -168,7 +168,7 @@ namespace COMPASS.Models
       }
       _ = AllTags.Remove(todel);
       //remove from parent items list
-      _ = todel.ParentID == -1 ? RootTags.Remove(todel) : todel.GetParent().Children.Remove(todel);
+      _ = todel.ParentId == -1 ? RootTags.Remove(todel) : todel.GetParent().Children.Remove(todel);
     }
 
     public void RenameCollection(string NewCollectionName)

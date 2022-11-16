@@ -14,7 +14,7 @@ namespace COMPASS.Tools
 {
   public static class Utils
   {
-    public static int GetAvailableID<T>(IEnumerable<T> collection) where T : IHasID
+    public static int GetAvailableID<T>(IEnumerable<T> collection) where T : IHasId
     {
       var creator = new FreshIdCreator();
       return creator.Create(collection);

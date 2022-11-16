@@ -141,7 +141,7 @@ namespace COMPASS.ViewModels
     public void AddTagFilter(ITag t)
     {
       //only add if not yet in activetags
-      if (ActiveTags.All(p => p.ID != t.ID))
+      if (ActiveTags.All(p => p.Id != t.Id))
       {
         ActiveTags.Add(t);
       }
@@ -166,7 +166,7 @@ namespace COMPASS.ViewModels
         //List filter values for current filter type
         List<object> FilterValues = new(
             ActiveFilters
-            .Where(filter => (Enums.FilterType)filter.GetGroup() == FT)
+            .Where(filter => filter.GetFilterGroup() == FT)
             .Select(t => t.FilterValue)
             );
         //skip iteration if no filters of this type
@@ -223,7 +223,7 @@ namespace COMPASS.ViewModels
     }
     public void RemoveFieldFilter(FilterTag t)
     {
-      if ((Enums.FilterType)t.GetGroup() == Enums.FilterType.Search)
+      if (t.GetFilterGroup() == Enums.FilterType.Search)
       {
         _ = SearchFilters.Remove(t);
         UpdateSearchFilteredFiles("");
