@@ -86,7 +86,7 @@ namespace COMPASS.Models
     }
 
     //returns the first parent that is a group or null if no parents are group
-    public virtual ITag? GetGroup()
+    public virtual ITag GetGroup()
     {
       if (IsGroup)
       {

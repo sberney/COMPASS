@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 
-namespace COMPASS.Core.Tags
+namespace COMPASS.Core.Serialization
 {
-    public class XmlDataDeserializer<T> : IDataDeserializer<T> where T : class
+  public class XmlDataDeserializer<T> : IDataDeserializer<T> where T : class
   {
     public T? Deserialize(TextReader reader)
     {

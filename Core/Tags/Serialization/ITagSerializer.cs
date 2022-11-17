@@ -1,4 +1,4 @@
-﻿namespace COMPASS.Core.Tags
+﻿namespace COMPASS.Core.Tags.Serialization
 {
   public interface ITagSerializer
   {

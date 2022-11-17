@@ -1,4 +1,5 @@
-﻿using System;
+﻿using COMPASS.Core.Serialization;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,13 +7,14 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Windows.Documents;
+using Mapster;
 
-namespace COMPASS.Core.Tags
+namespace COMPASS.Core.Tags.Serialization
 {
   public class TagReader : ITagReader
   {
     protected readonly IFileSystem FileSystem;
-    protected IDataDeserializer<Collection<Tagv2>> Deserializer = new XmlDataDeserializer<Collection<Tagv2>>();
+    protected IDataDeserializer<List<SerializableTag>> Deserializer = new XmlDataDeserializer<List<SerializableTag>>();
     protected TreeFlattener TreeFlattener = new();
 
     public TagReader(IFileSystem fileSystem)
@@ -30,17 +32,24 @@ namespace COMPASS.Core.Tags
 
       using (StreamReader reader = new(FileSystem.FileStream.Create(tagsFile, FileMode.Open)))
       {
-        var rootTags = Deserializer.Deserialize(reader) as IReadOnlyList<ITag>;
+        var rootTags = Deserializer.Deserialize(reader);
         if (rootTags is null)
           return null;
 
-        var flatTags = TreeFlattener.FlattenTree(rootTags).ToList();
+        var convertedRootTags = ConvertTags(rootTags);
+
+        var flatTags = TreeFlattener.FlattenTree(convertedRootTags).ToList();
         return new SerializableTags
         {
-          Root = rootTags,
+          Root = convertedRootTags,
           All = flatTags
         };
       }
+    }
+
+    protected IReadOnlyList<ITag> ConvertTags(List<SerializableTag> tags)
+    {
+      return tags.Adapt<IReadOnlyList<Tagv2>>();
     }
   }
 }

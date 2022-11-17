@@ -31,7 +31,7 @@ namespace COMPASS.Core.Tags
     /// DO NOT USE.
     /// Required for XmlSerializer automated data population.
     /// </summary>
-    protected Tagv2() { }
+    public Tagv2() { }
 
     public int Id { get => TagId; set => SetProperty(ref TagId, value); }
 
