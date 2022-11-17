@@ -30,7 +30,7 @@ namespace COMPASS.Core.Tags
 
       using (StreamReader reader = new(FileSystem.FileStream.Create(tagsFile, FileMode.Open)))
       {
-        var rootTags = Deserializer.Deserialize(reader) as IReadOnlyList<Tagv2>;
+        var rootTags = Deserializer.Deserialize(reader) as IReadOnlyList<ITag>;
         if (rootTags is null)
           return null;
 
